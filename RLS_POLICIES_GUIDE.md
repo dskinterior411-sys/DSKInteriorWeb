@@ -82,3 +82,6 @@ CREATE POLICY "Allow public insert" ON contact_submissions
 
 This is faster than using the UI!
 
+
+
+

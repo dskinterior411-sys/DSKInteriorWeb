@@ -238,3 +238,6 @@ Once Supabase is set up:
 
 **Need Help?** Check the [NOTES.md](./NOTES.md) file for common issues and solutions.
 
+
+
+
