@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { Project, ProjectCategory } from "@/types";
 import { createSupabaseClient } from "@/lib/supabase";
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 // Fallback mock projects data - used if Supabase is not configured
 const mockProjects: Project[] = [
   {

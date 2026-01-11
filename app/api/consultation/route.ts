@@ -3,6 +3,9 @@ import { ConsultationRequest } from "@/types";
 import { createServerSupabaseClient } from "@/lib/supabase";
 import { sendEmail, formatConsultationEmail, formatAutoReplyEmail } from "@/lib/email";
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const data: ConsultationRequest = await request.json();
