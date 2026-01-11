@@ -41,8 +41,8 @@ export default function About() {
               Why Choose <span className="gradient-text">DSK Interior</span>
             </h2>
             <p className="text-xl text-neutral-600 mb-8">
-              With over 15 years of experience, we've transformed hundreds of spaces,
-              creating beautiful, functional interiors that reflect our clients' unique
+              With over 15 years of experience, we&apos;ve transformed hundreds of spaces,
+              creating beautiful, functional interiors that reflect our clients&apos; unique
               personalities and needs.
             </p>
             <p className="text-lg text-neutral-600 mb-8">

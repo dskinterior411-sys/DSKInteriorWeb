@@ -9,7 +9,7 @@ export default function ConsultationPage() {
             Project <span className="gradient-text">Consultation</span>
           </h1>
           <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Tell us about your project and we'll get back to you with a personalized proposal
+            Tell us about your project and we&apos;ll get back to you with a personalized proposal
           </p>
         </div>
         <ConsultationForm />

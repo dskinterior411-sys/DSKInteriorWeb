@@ -49,7 +49,7 @@ export default function Testimonials() {
             What Our <span className="gradient-text">Clients Say</span>
           </h2>
           <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Don't just take our word for it - hear from our satisfied clients
+            Don&apos;t just take our word for it - hear from our satisfied clients
           </p>
         </motion.div>
 
@@ -73,7 +73,7 @@ export default function Testimonials() {
                 ))}
               </div>
               <p className="text-neutral-700 mb-6 relative z-10">
-                "{testimonial.content}"
+                &ldquo;{testimonial.content}&rdquo;
               </p>
               <div className="flex items-center space-x-4">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden bg-neutral-200">

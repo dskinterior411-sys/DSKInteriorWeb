@@ -229,7 +229,7 @@ export default function ConsultationForm() {
         </div>
         <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
         <p className="text-xl text-neutral-600 mb-8">
-          We've received your consultation request. Our team will contact you within 24 hours.
+          We&apos;ve received your consultation request. Our team will contact you within 24 hours.
         </p>
       </motion.div>
     );

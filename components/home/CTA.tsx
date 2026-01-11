@@ -19,7 +19,7 @@ export default function CTA() {
             Ready to Transform Your Space?
           </h2>
           <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-            Let's bring your vision to life. Get a free consultation and discover
+            Let&apos;s bring your vision to life. Get a free consultation and discover
             how we can create the perfect space for you.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">

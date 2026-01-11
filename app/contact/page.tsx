@@ -78,7 +78,7 @@ export default function ContactPage() {
             Get In <span className="gradient-text">Touch</span>
           </h1>
           <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Have a question? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
           </p>
         </motion.div>
 
