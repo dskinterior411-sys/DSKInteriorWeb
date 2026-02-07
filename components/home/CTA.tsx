@@ -6,7 +6,7 @@ import { ArrowRight, Phone, Mail } from "lucide-react";
 
 export default function CTA() {
   return (
-    <section className="section-padding bg-gradient-to-br from-primary-600 to-accent-600 text-white">
+    <section className="section-padding bg-gradient-to-br from-primary-500 to-accent-500 text-white">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -25,7 +25,7 @@ export default function CTA() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Link
               href="/consultation"
-              className="group px-8 py-4 bg-white text-primary-600 rounded-full font-semibold text-lg hover:bg-neutral-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2"
+              className="group px-8 py-4 bg-white text-primary-500 rounded-full font-semibold text-lg hover:bg-neutral-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2"
             >
               <span>Get Free Consultation</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />

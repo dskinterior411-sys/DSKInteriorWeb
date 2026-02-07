@@ -9,9 +9,9 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-accent-50">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-accent-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-primary-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="container-custom section-padding relative z-10">
@@ -26,7 +26,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-6"
+              className="inline-flex items-center space-x-2 px-4 py-2 bg-accent-100 text-primary-700 rounded-full text-sm font-semibold mb-6"
             >
               <Sparkles className="h-4 w-4" />
               <span>Elevate Your Space with Luxury</span>
@@ -61,14 +61,14 @@ export default function Hero() {
           >
             <Link
               href="/consultation"
-              className="group px-8 py-4 bg-primary-600 text-white rounded-full font-semibold text-lg hover:bg-primary-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2"
+              className="group px-8 py-4 bg-primary-500 text-white rounded-full font-semibold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2"
             >
               <span>Get Free Consultation</span>
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/portfolio"
-              className="px-8 py-4 bg-white text-neutral-900 rounded-full font-semibold text-lg border-2 border-neutral-300 hover:border-primary-600 transition-all shadow-md hover:shadow-lg"
+              className="px-8 py-4 bg-white text-neutral-900 rounded-full font-semibold text-lg border-2 border-neutral-300 hover:border-primary-500 transition-all shadow-md hover:shadow-lg"
             >
               View Our Work
             </Link>

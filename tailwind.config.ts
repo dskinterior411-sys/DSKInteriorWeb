@@ -10,43 +10,43 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          // Golden color palette
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+          // Dominant Brown/Golden (#A67449)
+          50: '#faf7f4',
+          100: '#f5ede6',
+          200: '#ead9cd',
+          300: '#d4b39b',
+          400: '#be8d69',
+          500: '#A67449', // Main dominant color
+          600: '#8d5f3d',
+          700: '#744a31',
+          800: '#5b3a25',
+          900: '#422b19',
         },
         accent: {
-          // Coral/Pink color palette
-          50: '#fdf2f8',
-          100: '#fce7f3',
-          200: '#fbcfe8',
-          300: '#f9a8d4',
-          400: '#f472b6',
-          500: '#ec4899',
-          600: '#db2777',
-          700: '#be185d',
-          800: '#9f1239',
-          900: '#831843',
+          // Light Pink/Coral (#F2C4C4)
+          50: '#fefbfb',
+          100: '#fdf7f7',
+          200: '#fbefef',
+          300: '#f7dfdf',
+          400: '#f4cfcf',
+          500: '#F2C4C4', // Main accent color
+          600: '#c29d9d',
+          700: '#927676',
+          800: '#624f4f',
+          900: '#322828',
         },
-        coral: {
-          // Coral specific shades
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          200: '#fecdd3',
-          300: '#fda4af',
-          400: '#fb7185',
-          500: '#f43f5e',
-          600: '#e11d48',
-          700: '#be123c',
-          800: '#9f1239',
-          900: '#881337',
+        dark: {
+          // Very Dark Black (#0D0000)
+          50: '#1a1a1a',
+          100: '#141414',
+          200: '#0f0f0f',
+          300: '#0a0a0a',
+          400: '#050505',
+          500: '#0D0000', // Main dark color
+          600: '#0a0000',
+          700: '#080000',
+          800: '#050000',
+          900: '#030000',
         },
         neutral: {
           50: '#fafafa',

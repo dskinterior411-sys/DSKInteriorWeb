@@ -12,7 +12,7 @@ export default function LoadingSpinner({ size = "md" }: { size?: "sm" | "md" | "
   return (
     <div className="flex items-center justify-center">
       <motion.div
-        className={`${sizeClasses[size]} border-4 border-primary-200 border-t-primary-600 rounded-full`}
+        className={`${sizeClasses[size]} border-4 border-primary-200 border-t-primary-500 rounded-full`}
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
       />

@@ -87,7 +87,7 @@ export default function ContactPage() {
           <div className="space-y-8">
             <div>
               <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
-                <Phone className="h-6 w-6 text-primary-600" />
+                <Phone className="h-6 w-6 text-primary-500" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Phone</h3>
               <p className="text-neutral-600">+91 9226146504</p>
@@ -95,7 +95,7 @@ export default function ContactPage() {
 
             <div>
               <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
-                <Mail className="h-6 w-6 text-primary-600" />
+                <Mail className="h-6 w-6 text-primary-500" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Email</h3>
               <p className="text-neutral-600">dskinteriorsofficial@gmail.com</p>
@@ -103,7 +103,7 @@ export default function ContactPage() {
 
             <div>
               <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
-                <MapPin className="h-6 w-6 text-primary-600" />
+                <MapPin className="h-6 w-6 text-primary-500" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Address</h3>
               <p className="text-neutral-600 mb-2">Shop No 3, Aaradhya Nakshtra<br />Near Ashoka College<br />Chandshi, Nashik 422003</p>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/LdAjoDX7C8UCQRxi7" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium text-sm"
+                className="inline-flex items-center text-primary-500 hover:text-primary-600 font-medium text-sm"
               >
                 <MapPin className="h-4 w-4 mr-1" />
                 View on Google Maps
@@ -145,7 +145,7 @@ export default function ContactPage() {
                   <input
                     type="text"
                     {...register("name")}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                   />
                   {errors.name && (
                     <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
@@ -157,7 +157,7 @@ export default function ContactPage() {
                   <input
                     type="email"
                     {...register("email")}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                   />
                   {errors.email && (
                     <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
@@ -171,7 +171,7 @@ export default function ContactPage() {
                   <input
                     type="tel"
                     {...register("phone")}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                   />
                   {errors.phone && (
                     <p className="text-red-600 text-sm mt-1">{errors.phone.message}</p>
@@ -183,7 +183,7 @@ export default function ContactPage() {
                   <input
                     type="text"
                     {...register("subject")}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                   />
                   {errors.subject && (
                     <p className="text-red-600 text-sm mt-1">{errors.subject.message}</p>
@@ -206,7 +206,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-8 py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full px-8 py-4 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 {isSubmitting ? (
                   <>

@@ -85,7 +85,7 @@ export default function About() {
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                   className="p-6 bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl border-2 border-primary-100"
                 >
-                  <div className="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-primary-500 rounded-xl flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-neutral-900">

@@ -71,7 +71,7 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="group p-8 bg-neutral-50 rounded-2xl hover:bg-white border-2 border-transparent hover:border-primary-200 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-2"
+                className="group p-8 bg-neutral-50 rounded-2xl hover:bg-white border-2 border-transparent hover:border-primary-300 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-2"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Icon className="h-8 w-8 text-white" />
@@ -85,7 +85,7 @@ export default function Services() {
                 <ul className="space-y-2">
                   {service.features.map((feature) => (
                     <li key={feature} className="flex items-center text-sm text-neutral-600">
-                      <span className="w-1.5 h-1.5 bg-primary-600 rounded-full mr-2" />
+                      <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2" />
                       {feature}
                     </li>
                   ))}

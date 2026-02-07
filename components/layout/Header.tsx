@@ -102,16 +102,16 @@ export default function Header() {
                   key={item.name}
                   href={item.href}
                   onClick={handleClick}
-                  className="text-neutral-700 hover:text-primary-600 font-medium transition-colors relative group"
+                  className="text-neutral-700 hover:text-primary-500 font-medium transition-colors relative group"
                 >
                   {item.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 transition-all group-hover:w-full" />
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full" />
                 </Link>
               );
             })}
             <Link
               href="/consultation"
-              className="px-6 py-2 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="px-6 py-2 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Get Consultation
             </Link>
@@ -167,7 +167,7 @@ export default function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block text-neutral-700 hover:text-primary-600 font-medium py-2"
+                    className="block text-neutral-700 hover:text-primary-500 font-medium py-2"
                     onClick={handleMobileClick}
                   >
                     {item.name}
@@ -176,7 +176,7 @@ export default function Header() {
               })}
               <Link
                 href="/consultation"
-                className="block w-full text-center px-6 py-3 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors mt-4"
+                className="block w-full text-center px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors mt-4"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Get Consultation

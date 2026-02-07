@@ -51,7 +51,7 @@ export default function FeaturedProjects() {
           </div>
           <Link
             href="/portfolio"
-            className="hidden md:flex items-center space-x-2 text-primary-600 font-semibold hover:text-primary-700 transition-colors"
+            className="hidden md:flex items-center space-x-2 text-primary-500 font-semibold hover:text-primary-600 transition-colors"
           >
             <span>View All</span>
             <ArrowRight className="h-5 w-5" />
@@ -78,12 +78,12 @@ export default function FeaturedProjects() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all">
-                    <span className="inline-block px-3 py-1 bg-primary-600 text-white text-sm rounded-full mb-2">
+                    <span className="inline-block px-3 py-1 bg-primary-500 text-white text-sm rounded-full mb-2">
                       {project.category}
                     </span>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-2 text-neutral-900 group-hover:text-primary-600 transition-colors">
+                <h3 className="text-2xl font-bold mb-2 text-neutral-900 group-hover:text-primary-500 transition-colors">
                   {project.title}
                 </h3>
                 <p className="text-neutral-600">{project.description}</p>
@@ -101,7 +101,7 @@ export default function FeaturedProjects() {
         >
           <Link
             href="/portfolio"
-            className="inline-flex items-center space-x-2 px-8 py-4 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl"
+            className="inline-flex items-center space-x-2 px-8 py-4 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors shadow-lg hover:shadow-xl"
           >
             <span>View All Projects</span>
             <ArrowRight className="h-5 w-5" />

@@ -254,9 +254,9 @@ export default function ConsultationForm() {
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                     currentStep > step.id
-                      ? "bg-primary-600 text-white"
+                      ? "bg-primary-500 text-white"
                       : currentStep === step.id
-                      ? "bg-primary-600 text-white ring-4 ring-primary-200"
+                      ? "bg-primary-500 text-white ring-4 ring-primary-200"
                       : "bg-neutral-200 text-neutral-600"
                   }`}
                 >
@@ -269,7 +269,7 @@ export default function ConsultationForm() {
               {index < steps.length - 1 && (
                 <div
                   className={`h-1 flex-1 mx-2 ${
-                    currentStep > step.id ? "bg-primary-600" : "bg-neutral-200"
+                    currentStep > step.id ? "bg-primary-500" : "bg-neutral-200"
                   }`}
                 />
               )}
@@ -309,7 +309,7 @@ export default function ConsultationForm() {
                       }}
                       className={`p-6 rounded-xl border-2 text-left transition-all ${
                         watchedValues.projectType === type
-                          ? "border-primary-600 bg-primary-50"
+                          ? "border-primary-500 bg-primary-50"
                           : "border-neutral-200 hover:border-primary-300"
                       }`}
                     >
@@ -331,7 +331,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Space Size</label>
                 <select
                   {...register("spaceSize")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 >
                   <option value="">Select size</option>
                   <option value="small">Small (under 500 sq ft)</option>
@@ -348,7 +348,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Budget Range</label>
                 <select
                   {...register("budgetRange")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 >
                   <option value="">Select budget</option>
                   <option value="under-10k">Under $10,000</option>
@@ -366,7 +366,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Timeline</label>
                 <select
                   {...register("timeline")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 >
                   <option value="">Select timeline</option>
                   <option value="asap">ASAP</option>
@@ -386,7 +386,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("location")}
                   placeholder="City, State"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
                 {errors.location && (
                   <p className="text-red-600 text-sm mt-1">{errors.location.message}</p>
@@ -433,7 +433,7 @@ export default function ConsultationForm() {
                         }}
                         className={`p-4 rounded-lg border-2 transition-all ${
                           isSelected
-                            ? "border-primary-600 bg-primary-50 text-primary-700"
+                            ? "border-primary-500 bg-primary-50 text-primary-700"
                             : "border-neutral-200 hover:border-primary-300"
                         }`}
                       >
@@ -455,7 +455,7 @@ export default function ConsultationForm() {
                   {...register("specificRequirements")}
                   rows={4}
                   placeholder="Tell us about any specific requirements, ideas, or inspiration..."
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -470,7 +470,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("contactName")}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
                 {errors.contactName && (
                   <p className="text-red-600 text-sm mt-1">{errors.contactName.message}</p>
@@ -483,7 +483,7 @@ export default function ConsultationForm() {
                   type="email"
                   {...register("email")}
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
                 {errors.email && (
                   <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
@@ -496,7 +496,7 @@ export default function ConsultationForm() {
                   type="tel"
                   {...register("phone")}
                   placeholder="+1 (555) 123-4567"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
                 {errors.phone && (
                   <p className="text-red-600 text-sm mt-1">{errors.phone.message}</p>
@@ -509,7 +509,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("company")}
                   placeholder="Company Name"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-600 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -581,7 +581,7 @@ export default function ConsultationForm() {
           <button
             type="button"
             onClick={nextStep}
-            className="px-6 py-3 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors flex items-center space-x-2"
+            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors flex items-center space-x-2"
           >
             <span>Next</span>
             <ArrowRight className="h-5 w-5" />

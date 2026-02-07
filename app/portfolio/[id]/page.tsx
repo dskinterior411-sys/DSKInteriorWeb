@@ -39,7 +39,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
       <div className="container-custom section-padding">
         <Link
           href="/portfolio"
-          className="inline-flex items-center space-x-2 text-neutral-600 hover:text-primary-600 mb-8 transition-colors"
+          className="inline-flex items-center space-x-2 text-neutral-600 hover:text-primary-500 mb-8 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Back to Portfolio</span>
@@ -95,7 +95,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
               <ul className="space-y-2">
                 {project.features.map((feature) => (
                   <li key={feature} className="flex items-center text-neutral-600">
-                    <span className="w-2 h-2 bg-primary-600 rounded-full mr-3" />
+                    <span className="w-2 h-2 bg-primary-500 rounded-full mr-3" />
                     {feature}
                   </li>
                 ))}

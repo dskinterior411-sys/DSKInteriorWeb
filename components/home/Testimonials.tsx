@@ -63,7 +63,7 @@ export default function Testimonials() {
               transition={{ delay: index * 0.1, duration: 0.6 }}
               className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow relative"
             >
-              <Quote className="absolute top-6 right-6 h-12 w-12 text-primary-200" />
+              <Quote className="absolute top-6 right-6 h-12 w-12 text-accent-300" />
               <div className="flex items-center space-x-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star

@@ -86,7 +86,7 @@ export default function Footer() {
                     href="https://maps.app.goo.gl/LdAjoDX7C8UCQRxi7" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-primary-400 hover:text-primary-300 text-sm mt-1 inline-block"
+                    className="text-primary-500 hover:text-primary-400 text-sm mt-1 inline-block"
                   >
                     View on Google Maps →
                   </a>
@@ -106,7 +106,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-primary-400 transition-colors"
+                    className="text-neutral-400 hover:text-primary-500 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -123,7 +123,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-neutral-400 hover:text-primary-400 transition-colors"
+                    className="text-neutral-400 hover:text-primary-500 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -145,7 +145,7 @@ export default function Footer() {
                   <a
                     key={social.name}
                     href={social.href}
-                    className="p-2 bg-neutral-800 rounded-full hover:bg-primary-600 transition-colors"
+                    className="p-2 bg-neutral-800 rounded-full hover:bg-primary-500 transition-colors"
                     aria-label={social.name}
                   >
                     <Icon className="h-5 w-5" />
