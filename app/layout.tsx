@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     description: "Premium interior design services in Nashik, Pune, and Mumbai",
     type: "website",
   },
+  icons: {
+    icon: "/logo.jpeg",
+    apple: "/logo.jpeg",
+  },
 };
 
 export default function RootLayout({

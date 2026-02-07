@@ -2,8 +2,35 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+// Logo component with fallback
+function Logo() {
+  const [imgError, setImgError] = useState(false);
+
+  if (imgError) {
+    return (
+      <div className="text-2xl font-bold gradient-text">
+        DSK Interior
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src="/logo.jpeg"
+      alt="DSK Interiors Logo"
+      width={120}
+      height={60}
+      className="h-12 w-auto object-contain"
+      priority
+      unoptimized
+      onError={() => setImgError(true)}
+    />
+  );
+}
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -36,13 +63,13 @@ export default function Header() {
       <nav className="container-custom px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center space-x-3 group">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-2xl font-bold gradient-text"
+              className="relative h-12 flex items-center"
             >
-              DSK Interior
+              <Logo />
             </motion.div>
           </Link>
 

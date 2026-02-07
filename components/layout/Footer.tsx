@@ -1,5 +1,36 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Instagram, Linkedin, Youtube } from "lucide-react";
+
+// Footer Logo component with fallback
+function FooterLogo() {
+  const [imgError, setImgError] = useState(false);
+
+  if (imgError) {
+    return (
+      <h3 className="text-2xl font-bold text-white mb-4 gradient-text">
+        DSK Interior
+      </h3>
+    );
+  }
+
+  return (
+    <div className="relative h-16 w-auto flex items-center mb-4 bg-white/10 rounded-lg p-2">
+      <Image
+        src="/logo.jpeg"
+        alt="DSK Interiors Logo"
+        width={150}
+        height={75}
+        className="h-14 w-auto object-contain"
+        unoptimized
+        onError={() => setImgError(true)}
+      />
+    </div>
+  );
+}
 
 const footerLinks = {
   company: [
@@ -32,9 +63,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl font-bold text-white mb-4 gradient-text">
-              DSK Interior
-            </h3>
+            <Link href="/" className="inline-block">
+              <FooterLogo />
+            </Link>
             <p className="text-neutral-400 mb-6">
               Elevate your space with luxury. Premium interior design solutions for Nashik, Pune, and Mumbai.
             </p>

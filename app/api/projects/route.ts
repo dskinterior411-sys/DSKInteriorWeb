@@ -48,7 +48,8 @@ const mockProjects: Project[] = [
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    // Use request.nextUrl instead of new URL(request.url) to avoid static analysis issues
+    const { searchParams } = request.nextUrl;
     const category = searchParams.get("category") as ProjectCategory | null;
     const featured = searchParams.get("featured") === "true";
 
