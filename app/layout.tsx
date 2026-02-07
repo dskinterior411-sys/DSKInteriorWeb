@@ -11,13 +11,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "DSK Interior - Creative Interior Design Solutions",
-  description: "Transform your space with DSK Interior. Expert interior design services for residential, commercial, retail, and corporate spaces.",
-  keywords: ["interior design", "home design", "commercial interior", "interior decorator"],
+  title: "DSK Interior - Elevate Your Space with Luxury",
+  description: "Premium interior design services in Nashik, Pune, and Mumbai. Elevate your space with luxury. Expert design solutions for residential, commercial, retail, and corporate spaces.",
+  keywords: ["interior design", "home design", "commercial interior", "interior decorator", "Nashik interior design", "Pune interior design", "Mumbai interior design", "luxury interior design"],
   authors: [{ name: "DSK Interior" }],
   openGraph: {
-    title: "DSK Interior - Creative Interior Design Solutions",
-    description: "Transform your space with expert interior design services",
+    title: "DSK Interior - Elevate Your Space with Luxury",
+    description: "Premium interior design services in Nashik, Pune, and Mumbai",
     type: "website",
   },
 };
@@ -39,6 +39,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+
 
 
 

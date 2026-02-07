@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const footerLinks = {
   company: [
@@ -21,9 +21,8 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "LinkedIn", icon: Linkedin, href: "#" },
+  { name: "Instagram", icon: Instagram, href: "https://instagram.com/dskinteriorsofficial?igsh=Yml0dThwdm1lMTZo&utm_source=qr" },
+  { name: "YouTube", icon: Youtube, href: "https://www.youtube.com/@DskInteriors" },
 ];
 
 export default function Footer() {
@@ -37,20 +36,33 @@ export default function Footer() {
               DSK Interior
             </h3>
             <p className="text-neutral-400 mb-6">
-              Transforming spaces with creative and bold interior design solutions.
+              Elevate your space with luxury. Premium interior design solutions for Nashik, Pune, and Mumbai.
             </p>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-neutral-400">
                 <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 9226146504</span>
               </div>
               <div className="flex items-center space-x-3 text-neutral-400">
                 <Mail className="h-4 w-4" />
-                <span>contact@dskinterior.com</span>
+                <span>dskinteriorsofficial@gmail.com</span>
               </div>
-              <div className="flex items-center space-x-3 text-neutral-400">
-                <MapPin className="h-4 w-4" />
-                <span>Your City, Country</span>
+              <div className="flex items-start space-x-3 text-neutral-400">
+                <MapPin className="h-4 w-4 mt-1" />
+                <div>
+                  <span className="block">Shop No 3, Aaradhya Nakshtra, Near Ashoka College, Chandshi, Nashik 422003</span>
+                  <a 
+                    href="https://maps.app.goo.gl/LdAjoDX7C8UCQRxi7" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary-400 hover:text-primary-300 text-sm mt-1 inline-block"
+                  >
+                    View on Google Maps →
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 text-neutral-400 text-sm">
+                <span>Business Hours: 11:00 AM - 7:00 PM</span>
               </div>
             </div>
           </div>
@@ -134,6 +146,8 @@ export default function Footer() {
     </footer>
   );
 }
+
+
 
 
 

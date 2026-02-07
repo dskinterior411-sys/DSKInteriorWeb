@@ -29,7 +29,7 @@ export default function Hero() {
               className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-6"
             >
               <Sparkles className="h-4 w-4" />
-              <span>Transform Your Space Today</span>
+              <span>Elevate Your Space with Luxury</span>
             </motion.span>
           </motion.div>
 
@@ -39,8 +39,8 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
           >
-            <span className="block text-neutral-900">Creative Interior</span>
-            <span className="block gradient-text">Design Solutions</span>
+            <span className="block text-neutral-900">Elevate Your Space</span>
+            <span className="block gradient-text">With Luxury</span>
           </motion.h1>
 
           <motion.p
@@ -49,8 +49,8 @@ export default function Hero() {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="text-xl md:text-2xl text-neutral-600 mb-10 max-w-2xl mx-auto"
           >
-            Transform your space with bold, innovative designs that reflect your
-            unique style and vision.
+            Premium interior design solutions that transform your space into a luxurious
+            haven reflecting your unique style and vision.
           </motion.p>
 
           <motion.div
@@ -82,9 +82,9 @@ export default function Hero() {
             className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto"
           >
             {[
-              { number: "500+", label: "Projects Completed" },
-              { number: "200+", label: "Happy Clients" },
-              { number: "15+", label: "Years Experience" },
+              { number: "35+", label: "Projects Completed" },
+              { number: "30+", label: "Happy Clients" }, // Update with actual number when available
+              { number: "6+", label: "Years Experience" },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -125,6 +125,8 @@ export default function Hero() {
     </section>
   );
 }
+
+
 
 
 

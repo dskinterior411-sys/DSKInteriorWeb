@@ -37,14 +37,14 @@ export default function CTA() {
               Contact Us
             </Link>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/90">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-white/90">
             <div className="flex items-center space-x-3">
               <Phone className="h-5 w-5" />
-              <span>+1 (555) 123-4567</span>
+              <span>+91 9226146504</span>
             </div>
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5" />
-              <span>contact@dskinterior.com</span>
+              <span>dskinteriorsofficial@gmail.com</span>
             </div>
           </div>
         </motion.div>

@@ -22,7 +22,7 @@ export async function sendEmail(data: EmailData): Promise<void> {
     const resend = new Resend(apiKey);
 
     await resend.emails.send({
-      from: data.from || process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      from: data.from || process.env.EMAIL_FROM || 'dskinteriorsofficial@gmail.com',
       to: data.to,
       subject: data.subject,
       html: data.html,

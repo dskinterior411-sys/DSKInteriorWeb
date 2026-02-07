@@ -41,22 +41,21 @@ export default function About() {
               Why Choose <span className="gradient-text">DSK Interior</span>
             </h2>
             <p className="text-xl text-neutral-600 mb-8">
-              With over 15 years of experience, we&apos;ve transformed hundreds of spaces,
-              creating beautiful, functional interiors that reflect our clients&apos; unique
+              With over 6 years of experience, we&apos;ve transformed spaces across Nashik, Pune, and Mumbai,
+              creating luxurious, functional interiors that reflect our clients&apos; unique
               personalities and needs.
             </p>
             <p className="text-lg text-neutral-600 mb-8">
               Our team of talented designers combines creativity with practicality,
-              ensuring every project is not just beautiful, but also functional and
-              sustainable. We believe in creating spaces that inspire, comfort, and
-              enhance the quality of life.
+              ensuring every project elevates your space with luxury while maintaining functionality.
+              We believe in creating spaces that inspire, comfort, and enhance the quality of life.
             </p>
             <div className="grid grid-cols-2 gap-6">
               {[
-                { number: "500+", label: "Projects" },
-                { number: "200+", label: "Clients" },
-                { number: "15+", label: "Years" },
-                { number: "50+", label: "Awards" },
+                { number: "35+", label: "Projects" },
+                { number: "30+", label: "Clients" },
+                { number: "6+", label: "Years" },
+                { number: "3", label: "Cities" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center p-4 bg-neutral-50 rounded-xl">
                   <div className="text-3xl font-bold gradient-text mb-1">

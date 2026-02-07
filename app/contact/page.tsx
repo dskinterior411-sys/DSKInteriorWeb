@@ -90,7 +90,7 @@ export default function ContactPage() {
                 <Phone className="h-6 w-6 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Phone</h3>
-              <p className="text-neutral-600">+1 (555) 123-4567</p>
+              <p className="text-neutral-600">+91 9226146504</p>
             </div>
 
             <div>
@@ -98,7 +98,7 @@ export default function ContactPage() {
                 <Mail className="h-6 w-6 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Email</h3>
-              <p className="text-neutral-600">contact@dskinterior.com</p>
+              <p className="text-neutral-600">dskinteriorsofficial@gmail.com</p>
             </div>
 
             <div>
@@ -106,7 +106,17 @@ export default function ContactPage() {
                 <MapPin className="h-6 w-6 text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Address</h3>
-              <p className="text-neutral-600">Your City, Country</p>
+              <p className="text-neutral-600 mb-2">Shop No 3, Aaradhya Nakshtra<br />Near Ashoka College<br />Chandshi, Nashik 422003</p>
+              <p className="text-neutral-500 text-sm mb-3">Business Hours: 11:00 AM - 7:00 PM</p>
+              <a 
+                href="https://maps.app.goo.gl/LdAjoDX7C8UCQRxi7" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium text-sm"
+              >
+                <MapPin className="h-4 w-4 mr-1" />
+                View on Google Maps
+              </a>
             </div>
           </div>
 
