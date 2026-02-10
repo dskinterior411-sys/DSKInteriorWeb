@@ -2,7 +2,7 @@ import ConsultationForm from "@/components/forms/ConsultationForm";
 
 export default function ConsultationPage() {
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-gradient-to-br from-neutral-50 to-white">
+    <div className="pt-24 pb-16 min-h-screen bg-gradient-to-br from-accent-100 to-accent-500">
       <div className="container-custom section-padding">
         <div className="text-center mb-12">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">

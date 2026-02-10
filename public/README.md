@@ -11,3 +11,4 @@ The logo should be:
 - Transparent background (preferred)
 - Optimized for web use
 
+

@@ -68,3 +68,4 @@ Once you've added the logo file:
 
 **Current Status:** ✅ Code ready, waiting for logo file
 
+

@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+// import { use } from "react"; // Removed as params is not a promise in Next.js 14
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin, Calendar } from "lucide-react";
@@ -30,12 +30,12 @@ const getProject = (id: string) => {
   };
 };
 
-export default function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
+export default function ProjectDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const project = getProject(id);
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-white">
+    <div className="pt-24 pb-16 min-h-screen bg-accent-500">
       <div className="container-custom section-padding">
         <Link
           href="/portfolio"

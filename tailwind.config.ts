@@ -10,43 +10,43 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          // Dominant Brown/Golden (#A67449)
-          50: '#faf7f4',
-          100: '#f5ede6',
-          200: '#ead9cd',
-          300: '#d4b39b',
-          400: '#be8d69',
-          500: '#A67449', // Main dominant color
-          600: '#8d5f3d',
-          700: '#744a31',
-          800: '#5b3a25',
-          900: '#422b19',
+          // Brand Gold (#b28e5d)
+          50: '#f9f5f0',
+          100: '#f0e8dc',
+          200: '#e0cbb6',
+          300: '#d0af90',
+          400: '#c1946a',
+          500: '#b28e5d', // Main dominant color
+          600: '#9a7b50',
+          700: '#826843',
+          800: '#6a5536',
+          900: '#524229',
         },
         accent: {
-          // Light Pink/Coral (#F2C4C4)
-          50: '#fefbfb',
-          100: '#fdf7f7',
-          200: '#fbefef',
-          300: '#f7dfdf',
-          400: '#f4cfcf',
-          500: '#F2C4C4', // Main accent color
-          600: '#c29d9d',
-          700: '#927676',
-          800: '#624f4f',
-          900: '#322828',
+          // Brand Pink (#f7c7c7)
+          50: '#fdf5f5', // Brand BG
+          100: '#fbf0f0',
+          200: '#fae6e6',
+          300: '#f9dcdc',
+          400: '#f8d2d2',
+          500: '#f7c7c7', // Brand Pink
+          600: '#d9afaf',
+          700: '#bb9797',
+          800: '#9d7f7f',
+          900: '#7f6767',
         },
         dark: {
-          // Very Dark Black (#0D0000)
-          50: '#1a1a1a',
-          100: '#141414',
-          200: '#0f0f0f',
-          300: '#0a0a0a',
-          400: '#050505',
-          500: '#0D0000', // Main dark color
-          600: '#0a0000',
-          700: '#080000',
-          800: '#050000',
-          900: '#030000',
+          // Brand Dark (#2d2d2d)
+          50: '#f2f2f2',
+          100: '#e6e6e6',
+          200: '#cccccc',
+          300: '#b3b3b3',
+          400: '#999999',
+          500: '#808080',
+          600: '#666666',
+          700: '#4d4d4d',
+          800: '#2d2d2d', // Main dark color
+          900: '#1a1a1a',
         },
         neutral: {
           50: '#fafafa',
@@ -62,8 +62,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-playfair)', 'serif'],
+        serif: ['var(--font-playfair)', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -87,7 +87,7 @@ https://www.youtube.com/@DskInteriors
 
 **Google Maps:**
 ```
-https://maps.app.goo.gl/LdAjoDX7C8UCQRxi7
+https://maps.app.goo.gl/rhCY92fAWcN9wNdY7
 ```
 
 ---

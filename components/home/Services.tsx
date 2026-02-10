@@ -1,63 +1,72 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Home, Building2, Store, Briefcase, Sparkles, Palette } from "lucide-react";
+import { Home, Building2, Palette, PenTool, Layout, Armchair, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 const services = [
   {
-    icon: Home,
-    title: "Residential Design",
-    description: "Transform your home into a personalized sanctuary that reflects your lifestyle and taste.",
-    features: ["Space Planning", "Color Consultation", "Furniture Selection", "Lighting Design"],
+    icon: Armchair,
+    title: "Interior Design",
+    description: "Full-service residential design focused on creating functional yet luxurious living environments.",
+    link: "/contact?service=interior-design"
+  },
+  {
+    icon: Layout,
+    title: "Space Planning",
+    description: "Optimizing the layout of your home to ensure flow, balance, and maximum utility.",
+    link: "/contact?service=space-planning"
+  },
+  {
+    icon: Palette,
+    title: "Styling & Decor",
+    description: "The finishing touches that turn a house into a home, from art selection to custom textiles.",
+    link: "/contact?service=styling"
   },
   {
     icon: Building2,
     title: "Commercial Design",
     description: "Create professional workspaces that enhance productivity and brand identity.",
-    features: ["Office Layout", "Brand Integration", "Ergonomic Solutions", "Modern Aesthetics"],
+    link: "/contact?service=commercial"
   },
   {
-    icon: Store,
-    title: "Retail Design",
-    description: "Design retail spaces that attract customers and maximize sales potential.",
-    features: ["Store Layout", "Visual Merchandising", "Customer Flow", "Brand Experience"],
+    icon: Home,
+    title: "Renovation",
+    description: "Expert guidance through structural changes and updates to breathe new life into your space.",
+    link: "/contact?service=renovation"
   },
   {
-    icon: Briefcase,
-    title: "Corporate Design",
-    description: "Elevate your corporate environment with sophisticated and functional designs.",
-    features: ["Executive Spaces", "Meeting Rooms", "Reception Areas", "Collaborative Zones"],
-  },
-  {
-    icon: Sparkles,
-    title: "Hospitality Design",
-    description: "Create memorable experiences for guests with stunning hospitality interiors.",
-    features: ["Hotel Interiors", "Restaurant Design", "Lounge Areas", "Guest Experience"],
-  },
-  {
-    icon: Palette,
-    title: "Custom Solutions",
-    description: "Tailored design solutions for unique spaces and specific requirements.",
-    features: ["Bespoke Design", "Custom Furniture", "Unique Concepts", "Personalized Service"],
+    icon: PenTool,
+    title: "Custom Furniture",
+    description: "Bespoke furniture design tailored specifically to your dimensions and style preferences.",
+    link: "/contact?service=custom-furniture"
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="section-padding bg-white">
-      <div className="container-custom">
+    <section id="services" className="py-24 px-4 bg-accent-50 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-30 pointer-events-none">
+        <div className="absolute top-20 left-20 w-64 h-64 bg-primary-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent-200/20 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Our <span className="gradient-text">Services</span>
+          <span className="text-primary-500 font-bold tracking-widest uppercase text-sm mb-4 block font-sans">Our Expertise</span>
+          <h2 className="text-4xl md:text-5xl font-display font-medium text-neutral-900 tracking-tight mb-6">
+            DESIGN <span className="italic text-primary-500">SOLUTIONS</span>
           </h2>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Comprehensive interior design solutions for every space and style
+          <div className="w-24 h-0.5 bg-primary-500 mx-auto mb-6"></div>
+          <p className="text-xl text-neutral-500 font-light max-w-2xl mx-auto font-sans leading-relaxed">
+            Comprehensive interior styling and design services tailored to your unique lifestyle.
           </p>
         </motion.div>
 
@@ -71,25 +80,32 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="group p-8 bg-neutral-50 rounded-2xl hover:bg-white border-2 border-transparent hover:border-primary-300 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-2"
+                className="group relative bg-white p-10 rounded-xl hover:shadow-2xl transition-all duration-500 border border-neutral-100 hover:border-primary-100 overflow-hidden"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Icon className="h-8 w-8 text-white" />
+                {/* Hover gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white to-accent-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                <div className="relative z-10">
+                  <div className="w-14 h-14 bg-accent-50 rounded-lg flex items-center justify-center mb-8 text-primary-500 group-hover:bg-primary-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:rotate-3">
+                    <Icon className="h-7 w-7" />
+                  </div>
+
+                  <h3 className="text-2xl mb-4 font-display font-medium text-neutral-900 group-hover:translate-x-1 transition-transform duration-300">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-neutral-500 leading-relaxed font-light font-sans mb-8 group-hover:text-neutral-600 transition-colors">
+                    {service.description}
+                  </p>
+
+                  <Link
+                    href={service.link}
+                    className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-primary-500 hover:text-primary-600 transition-colors group/link"
+                  >
+                    <span>Learn More</span>
+                    <ArrowUpRight className="h-4 w-4 ml-2 transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform duration-300" />
+                  </Link>
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-neutral-900">
-                  {service.title}
-                </h3>
-                <p className="text-neutral-600 mb-6">
-                  {service.description}
-                </p>
-                <ul className="space-y-2">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-sm text-neutral-600">
-                      <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
               </motion.div>
             );
           })}

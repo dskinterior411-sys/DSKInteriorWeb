@@ -2,42 +2,39 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Menu, X, Phone, Mail } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Logo component with fallback
-function Logo() {
-  const [imgError, setImgError] = useState(false);
-
-  if (imgError) {
-    return (
-      <div className="text-2xl font-bold gradient-text">
-        DSK Interior
-      </div>
-    );
-  }
+function Logo({ isScrolled }: { isScrolled: boolean }) {
+  const strokeColor = isScrolled ? "black" : "white";
+  const fillColor = isScrolled ? "black" : "white";
+  const textColor = isScrolled ? "text-neutral-900" : "text-white";
+  const subTextColor = isScrolled ? "text-neutral-600" : "text-white/80";
+  const accentColor = "#b28e5d"; // Gold
 
   return (
-    <Image
-      src="/logo.jpeg"
-      alt="DSK Interiors Logo"
-      width={120}
-      height={60}
-      className="h-12 w-auto object-contain"
-      priority
-      unoptimized
-      onError={() => setImgError(true)}
-    />
+    <div className="flex items-center space-x-2">
+      <div className="relative w-10 h-10 flex items-center justify-center">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <path d="M10 50 L50 15 L90 50" stroke={strokeColor} strokeWidth="4" fill="none" className="transition-colors duration-300" />
+          <path d="M65 28 V15 H75 V36" fill={fillColor} className="transition-colors duration-300" />
+          <path d="M25 50 V80 H70" stroke={accentColor} strokeWidth="4" fill="none" />
+        </svg>
+      </div>
+      <div className="flex flex-col">
+        <span className={`text-xl leading-none font-medium tracking-[2px] font-display transition-colors duration-300 ${textColor}`}>DSK</span>
+        <span className={`text-[10px] tracking-[4px] uppercase font-light transition-colors duration-300 ${subTextColor}`}>Interiors</span>
+      </div>
+    </div>
   );
 }
 
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Portfolio", href: "/portfolio" },
-  { name: "Services", href: "/#services" },
-  { name: "About", href: "/#about" },
-  { name: "Contact", href: "/contact" },
+  { name: "HOME", href: "/" },
+  { name: "SERVICES", href: "/#services" },
+  { name: "PORTFOLIO", href: "/portfolio" },
+  { name: "ABOUT", href: "/#about" },
+  { name: "CONTACT", href: "/contact" },
 ];
 
 export default function Header() {
@@ -54,72 +51,37 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled
+        ? "bg-accent-50/95 backdrop-blur-md shadow-md py-2 border-accent-200"
+        : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-6 border-transparent backdrop-blur-[1px]"
+        }`}
     >
-      <nav className="container-custom px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative h-12 flex items-center"
-            >
-              <Logo />
-            </motion.div>
+          <Link href="/" className="group">
+            <Logo isScrolled={scrolled} />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => {
-              const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                if (item.href.startsWith("#")) {
-                  e.preventDefault();
-                  const element = document.querySelector(item.href);
-                  if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
-                  }
-                } else if (item.href.startsWith("/#")) {
-                  e.preventDefault();
-                  const hash = item.href.substring(1);
-                  if (window.location.pathname !== "/") {
-                    window.location.href = "/" + hash;
-                  } else {
-                    const element = document.querySelector(hash);
-                    if (element) {
-                      element.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }
-                }
-              };
-
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={handleClick}
-                  className="text-neutral-700 hover:text-primary-500 font-medium transition-colors relative group"
-                >
-                  {item.name}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all group-hover:w-full" />
-                </Link>
-              );
-            })}
-            <Link
-              href="/consultation"
-              className="px-6 py-2 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              Get Consultation
-            </Link>
+          <div className="hidden md:flex items-center space-x-10">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-sm tracking-widest font-display font-medium transition-colors duration-300 ${scrolled
+                  ? (item.name === "CONTACT" ? "font-semibold text-neutral-900 hover:text-primary-500" : "text-neutral-700 hover:text-primary-500")
+                  : (item.name === "CONTACT" ? "font-semibold text-white hover:text-primary-400" : "text-white/90 hover:text-primary-400")
+                  }`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 text-neutral-700"
+            className={`md:hidden p-2 transition-colors duration-300 ${scrolled ? "text-neutral-700 hover:text-primary-500" : "text-white hover:text-primary-400"}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -138,49 +100,20 @@ export default function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 space-y-4 pb-4"
+              className="md:hidden mt-2 bg-white/95 backdrop-blur-xl border-t border-accent-100 shadow-xl overflow-hidden rounded-b-2xl"
             >
-              {navigation.map((item) => {
-                const handleMobileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-                  setMobileMenuOpen(false);
-                  if (item.href.startsWith("#")) {
-                    e.preventDefault();
-                    const element = document.querySelector(item.href);
-                    if (element) {
-                      element.scrollIntoView({ behavior: "smooth" });
-                    }
-                  } else if (item.href.startsWith("/#")) {
-                    e.preventDefault();
-                    const hash = item.href.substring(1);
-                    if (window.location.pathname !== "/") {
-                      window.location.href = "/" + hash;
-                    } else {
-                      const element = document.querySelector(hash);
-                      if (element) {
-                        element.scrollIntoView({ behavior: "smooth" });
-                      }
-                    }
-                  }
-                };
-
-                return (
+              <div className="flex flex-col p-6 space-y-6">
+                {navigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="block text-neutral-700 hover:text-primary-500 font-medium py-2"
-                    onClick={handleMobileClick}
+                    className="text-center text-xl font-display tracking-widest text-neutral-800 hover:text-primary-500 transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
-                );
-              })}
-              <Link
-                href="/consultation"
-                className="block w-full text-center px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors mt-4"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get Consultation
-              </Link>
+                ))}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

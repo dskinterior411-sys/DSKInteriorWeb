@@ -8,7 +8,7 @@ import CTA from "@/components/home/CTA";
 
 export default function Home() {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden bg-accent-500">
       <Hero />
       <Services />
       <FeaturedProjects />

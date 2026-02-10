@@ -331,7 +331,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Space Size</label>
                 <select
                   {...register("spaceSize")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 >
                   <option value="">Select size</option>
                   <option value="small">Small (under 500 sq ft)</option>
@@ -348,7 +348,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Budget Range</label>
                 <select
                   {...register("budgetRange")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 >
                   <option value="">Select budget</option>
                   <option value="under-10k">Under $10,000</option>
@@ -366,7 +366,7 @@ export default function ConsultationForm() {
                 <label className="block text-sm font-semibold mb-2">Timeline</label>
                 <select
                   {...register("timeline")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 >
                   <option value="">Select timeline</option>
                   <option value="asap">ASAP</option>
@@ -386,7 +386,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("location")}
                   placeholder="City, State"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
                 {errors.location && (
                   <p className="text-red-600 text-sm mt-1">{errors.location.message}</p>
@@ -455,7 +455,7 @@ export default function ConsultationForm() {
                   {...register("specificRequirements")}
                   rows={4}
                   placeholder="Tell us about any specific requirements, ideas, or inspiration..."
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
               </div>
             </div>
@@ -470,7 +470,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("contactName")}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
                 {errors.contactName && (
                   <p className="text-red-600 text-sm mt-1">{errors.contactName.message}</p>
@@ -483,7 +483,7 @@ export default function ConsultationForm() {
                   type="email"
                   {...register("email")}
                   placeholder="john@example.com"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
                 {errors.email && (
                   <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
@@ -496,7 +496,7 @@ export default function ConsultationForm() {
                   type="tel"
                   {...register("phone")}
                   placeholder="+1 (555) 123-4567"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
                 {errors.phone && (
                   <p className="text-red-600 text-sm mt-1">{errors.phone.message}</p>
@@ -509,7 +509,7 @@ export default function ConsultationForm() {
                   type="text"
                   {...register("company")}
                   placeholder="Company Name"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
                 />
               </div>
             </div>
@@ -581,7 +581,7 @@ export default function ConsultationForm() {
           <button
             type="button"
             onClick={nextStep}
-            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-colors flex items-center space-x-2"
+            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-strong transform hover:scale-105 active:scale-95 flex items-center space-x-2"
           >
             <span>Next</span>
             <ArrowRight className="h-5 w-5" />
@@ -590,7 +590,7 @@ export default function ConsultationForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-3 bg-primary-600 text-white rounded-full font-semibold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-strong transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center space-x-2"
           >
             {isSubmitting ? (
               <>
