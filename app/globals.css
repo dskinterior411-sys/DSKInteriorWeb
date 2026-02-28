@@ -4,6 +4,10 @@
 
 :root {
   /* Font variables are defined in layout.tsx */
+  /* Theme colors - can be overridden by ThemeProvider */
+  --color-primary: #b28e5d;
+  --color-accent: #FDCDCA;
+  --color-dark: #0D0000;
 }
 
 @layer base {

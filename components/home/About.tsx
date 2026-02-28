@@ -1,17 +1,53 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, Users, Clock, Heart, CheckCircle2 } from "lucide-react";
+import { Award, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
-
-const stats = [
-  { number: "6+", label: "Years Experience" },
-  { number: "35+", label: "Projects Completed" },
-  { number: "3", label: "Cities Covered" },
-  { number: "100%", label: "Client Satisfaction" },
-];
+import { useEffect, useState } from "react";
+import { getStats, getSettings, getWhyChooseUs, Stat, Settings, WhyChooseUs } from "@/lib/api";
+import * as LucideIcons from "lucide-react";
 
 export default function About() {
+  const [stats, setStats] = useState<Stat[]>([]);
+  const [settings, setSettings] = useState<Settings | null>(null);
+  const [whyChooseUs, setWhyChooseUs] = useState<WhyChooseUs[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const [statsData, settingsData, whyChooseUsData] = await Promise.all([
+        getStats(),
+        getSettings(),
+        getWhyChooseUs()
+      ]);
+
+      if (statsData.length > 0) {
+        setStats(statsData);
+      } else {
+        // Fallback or empty
+        setStats([
+          { id: "1", label: "Years Experience", value: "6+", order: 1 },
+          { id: "2", label: "Projects Completed", value: "35+", order: 2 },
+          { id: "3", label: "Cities Covered", value: "3", order: 3 },
+          { id: "4", label: "Client Satisfaction", value: "100%", order: 4 },
+        ]);
+      }
+      setSettings(settingsData);
+      
+      if (whyChooseUsData.length > 0) {
+        setWhyChooseUs(whyChooseUsData);
+      } else {
+        // Fallback to hardcoded items if no data
+        setWhyChooseUs([
+          { id: "1", title: "Personalized Design", description: "Tailored solutions for your unique space", icon: "CheckCircle2", order: 1 },
+          { id: "2", title: "Premium Materials", description: "Quality that stands the test of time", icon: "CheckCircle2", order: 2 },
+          { id: "3", title: "End-to-End Service", description: "From concept to completion", icon: "CheckCircle2", order: 3 },
+          { id: "4", title: "Transparent Process", description: "Clear communication every step", icon: "CheckCircle2", order: 4 },
+        ]);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <section id="about" className="py-24 bg-white overflow-hidden">
       <div className="container-custom px-4">
@@ -26,7 +62,7 @@ export default function About() {
           >
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1000"
+                src={settings?.about_image || "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1000"}
                 alt="Luxury Interior"
                 fill
                 className="object-cover"
@@ -66,33 +102,39 @@ export default function About() {
             className="w-full lg:w-1/2"
           >
             <div className="relative inline-block pb-3 mb-6">
-              <span className="text-primary-500 font-bold tracking-widest uppercase text-sm mb-2 block">About Us</span>
+              <span className="text-primary-500 font-bold tracking-widest uppercase text-sm mb-2 block">Why Choose Us</span>
               <h2 className="text-4xl md:text-5xl font-display font-medium text-neutral-900 tracking-tight leading-tight">
                 Crafting Spaces That <br />
                 <span className="italic text-primary-600">Tell Your Story</span>
               </h2>
             </div>
 
-            <p className="text-lg text-neutral-600 mb-6 font-light leading-relaxed font-sans">
-              At DSK Interiors, we believe that luxury is not just about aesthetics, but about the feeling of belonging. With over 6 years of experience transforming spaces in Nashik, Pune, and Mumbai, we blend functionality with sophisticated design to create homes and offices that inspire.
-            </p>
-            <p className="text-lg text-neutral-600 mb-8 font-light leading-relaxed font-sans">
-              Our approach is deeply personal. We listen to your needs, understand your lifestyle, and translate your vision into a reality that exceeds expectations.
-            </p>
+            <div className="text-lg text-neutral-600 mb-6 font-light leading-relaxed font-sans whitespace-pre-wrap">
+              {settings?.about_story || "At DSK Interiors, we believe that luxury is not just about aesthetics, but about the feeling of belonging. With over 6 years of experience transforming spaces in Nashik, Pune, and Mumbai, we blend functionality with sophisticated design to create homes and offices that inspire."}
+            </div>
 
             <div className="grid grid-cols-2 gap-y-4 gap-x-8 mb-10">
-              {["Personalized Design", "Premium Materials", "End-to-End Service", "Transparent Process"].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-primary-500 flex-shrink-0" />
-                  <span className="text-neutral-700 font-sans">{item}</span>
-                </div>
-              ))}
+              {whyChooseUs.map((item) => {
+                // @ts-ignore
+                const IconComponent = LucideIcons[item.icon] ? LucideIcons[item.icon] : CheckCircle2;
+                return (
+                  <div key={item.id} className="flex items-center gap-3">
+                    <IconComponent className="w-5 h-5 text-primary-500 flex-shrink-0" />
+                    <div>
+                      <span className="text-neutral-700 font-sans font-medium block">{item.title}</span>
+                      {item.description && (
+                        <span className="text-neutral-500 font-sans text-sm block mt-0.5">{item.description}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-neutral-100">
               {stats.map((stat, index) => (
                 <div key={index}>
-                  <h3 className="text-3xl font-display font-bold text-neutral-900 mb-1">{stat.number}</h3>
+                  <h3 className="text-3xl font-display font-bold text-neutral-900 mb-1">{stat.value}</h3>
                   <p className="text-xs text-neutral-500 uppercase tracking-wider">{stat.label}</p>
                 </div>
               ))}
@@ -103,7 +145,3 @@ export default function About() {
     </section>
   );
 }
-
-
-
-

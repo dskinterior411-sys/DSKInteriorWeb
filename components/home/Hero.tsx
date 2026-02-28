@@ -2,15 +2,27 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getSettings, Settings } from "@/lib/api";
 
 export default function Hero() {
+  const [settings, setSettings] = useState<Settings | null>(null);
+
+  useEffect(() => {
+    async function loadSettings() {
+      const data = await getSettings();
+      setSettings(data);
+    }
+    loadSettings();
+  }, []);
+
   return (
     <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
         style={{
-          backgroundImage: "linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=2000')"
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${settings?.hero_image || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=2000'}')`
         }}
       />
 
@@ -21,7 +33,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-white text-5xl md:text-7xl font-bold mb-6 tracking-wide drop-shadow-lg font-display"
         >
-          ELEVATING YOUR SPACE
+          {settings?.hero_title || "ELEVATING YOUR SPACE"}
         </motion.h1>
 
         <motion.p
@@ -30,7 +42,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-accent-50 text-xl md:text-2xl mb-10 font-light tracking-widest italic font-sans"
         >
-          Inspired Interiors for Modern Living
+          {settings?.hero_subtitle || "Inspired Interiors for Modern Living"}
         </motion.p>
 
         <motion.div

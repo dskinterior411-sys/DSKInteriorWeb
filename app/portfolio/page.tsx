@@ -6,7 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProjects, Project } from "@/lib/api";
 
-const categories = ["All", "Residential", "Commercial", "Office", "Kitchen"];
+// Category mapping: display name -> API value
+const categoryMap: Record<string, string> = {
+  "All": "all",
+  "Modular Kitchen": "modular-kitchen",
+  "Residential": "residential",
+  "Commercial": "commercial",
+  "Retail": "retail",
+  "Corporate": "corporate",
+  "Hospitality": "hospitality",
+};
+
+const categories = Object.keys(categoryMap);
 
 // Placeholder projects for fallback
 const placeholderProjects = [
@@ -80,7 +91,11 @@ export default function PortfolioPage() {
   useEffect(() => {
     async function fetchProjects() {
       setLoading(true);
-      const data = await getProjects(activeCategory === "All" ? undefined : activeCategory);
+      // Map display category to API category value
+      const categoryForApi = activeCategory === "All" 
+        ? undefined 
+        : categoryMap[activeCategory];
+      const data = await getProjects(categoryForApi);
 
       if (data && data.length > 0) {
         setProjects(data);

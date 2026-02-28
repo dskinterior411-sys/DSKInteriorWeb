@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Phone, Mail, MapPin, Instagram, Linkedin, Youtube, Facebook } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getSettings, Settings } from "@/lib/api";
 
 const footerLinks = {
   company: [
@@ -22,14 +25,30 @@ const footerLinks = {
   ],
 };
 
-const socialLinks = [
-  { name: "Instagram", icon: Instagram, href: "https://instagram.com/dskinteriorsofficial?igsh=Yml0dThwdm1lMTZo&utm_source=qr" },
-  { name: "YouTube", icon: Youtube, href: "https://www.youtube.com/@DskInteriors" },
-  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/dskinteriors" },
-  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/dsk-interiors" },
-];
-
 export default function Footer() {
+  const pathname = usePathname();
+  const [settings, setSettings] = useState<Settings | null>(null);
+
+  useEffect(() => {
+    async function loadSettings() {
+      const data = await getSettings();
+      setSettings(data);
+    }
+    loadSettings();
+  }, []);
+
+  // Don't render footer on admin pages
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
+
+  const socialLinks = [
+    { name: "Instagram", icon: Instagram, href: settings?.social_instagram || "https://instagram.com/dskinteriorsofficial?igsh=Yml0dThwdm1lMTZo&utm_source=qr" },
+    { name: "YouTube", icon: Youtube, href: settings?.social_youtube || "https://www.youtube.com/@DskInteriors" },
+    { name: "Facebook", icon: Facebook, href: settings?.social_facebook || "https://www.facebook.com/dskinteriors" },
+    { name: "LinkedIn", icon: Linkedin, href: settings?.social_linkedin || "https://www.linkedin.com/company/dsk-interiors" },
+  ];
+
   return (
     <footer className="bg-neutral-900 pt-20 pb-10 border-t border-neutral-800">
       <div className="container-custom px-4">
@@ -110,19 +129,21 @@ export default function Footer() {
                 <MapPin className="h-5 w-5 text-primary-500 mt-1 flex-shrink-0 group-hover:text-white transition-colors" />
                 <div>
                   <span className="block text-neutral-400 font-sans text-sm leading-relaxed group-hover:text-neutral-200 transition-colors">
-                    Shop No 3, Aaradhya Nakshtra,<br />
-                    Near Ashoka College, Chandshi,<br />
-                    Nashik 422003
+                    {settings?.contact_address || "Shop No 3, Aaradhya Nakshtra, Near Ashoka College, Chandshi, Nashik 422003"}
                   </span>
                 </div>
               </div>
               <div className="flex items-center space-x-4 group">
                 <Phone className="h-5 w-5 text-primary-500 flex-shrink-0 group-hover:text-white transition-colors" />
-                <span className="text-neutral-400 font-sans text-sm group-hover:text-neutral-200 transition-colors">+91 92261 46504</span>
+                <span className="text-neutral-400 font-sans text-sm group-hover:text-neutral-200 transition-colors">
+                  {settings?.contact_phone || "+91 92261 46504"}
+                </span>
               </div>
               <div className="flex items-center space-x-4 group">
                 <Mail className="h-5 w-5 text-primary-500 flex-shrink-0 group-hover:text-white transition-colors" />
-                <span className="text-neutral-400 font-sans text-sm group-hover:text-neutral-200 transition-colors">dskinteriorsofficial@gmail.com</span>
+                <span className="text-neutral-400 font-sans text-sm group-hover:text-neutral-200 transition-colors">
+                  {settings?.contact_email || "dskinteriorsofficial@gmail.com"}
+                </span>
               </div>
             </div>
           </div>

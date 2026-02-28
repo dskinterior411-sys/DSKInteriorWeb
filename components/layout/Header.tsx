@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -34,10 +35,13 @@ const navigation = [
   { name: "SERVICES", href: "/#services" },
   { name: "PORTFOLIO", href: "/portfolio" },
   { name: "ABOUT", href: "/#about" },
+  { name: "CAREER", href: "/career" },
   { name: "CONTACT", href: "/contact" },
+  { name: "ADMIN", href: "/admin/login" },
 ];
 
 export default function Header() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -48,6 +52,11 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Don't render header on admin pages
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <header

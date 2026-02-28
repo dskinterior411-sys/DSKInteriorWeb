@@ -232,3 +232,6 @@ extend: {
 
 **Main takeaway**: You don't need multiple CSS files. Tailwind handles most styling, and `globals.css` is for custom utilities and global overrides.
 
+
+
+

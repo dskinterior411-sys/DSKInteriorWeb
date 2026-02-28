@@ -12,10 +12,15 @@ export function createSupabaseClient(): SupabaseClient {
     return createClient('https://placeholder.supabase.co', 'placeholder-key');
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey);
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
 }
 
-// Server-side Supabase client (for API routes)
+// Server-side Supabase client (for API routes and server components)
 export function createServerSupabaseClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -23,6 +28,13 @@ export function createServerSupabaseClient(): SupabaseClient {
   if (!supabaseUrl || !supabaseServiceKey) {
     // Throw error with specific message that can be caught
     throw new Error('Missing Supabase environment variables. Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local');
+  }
+
+  // Validate URL format
+  try {
+    new URL(supabaseUrl);
+  } catch {
+    throw new Error(`Invalid Supabase URL format: ${supabaseUrl}`);
   }
 
   return createClient(supabaseUrl, supabaseServiceKey, {

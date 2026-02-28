@@ -1,49 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Home, Building2, Palette, PenTool, Layout, Armchair, ArrowUpRight } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import Link from "next/link";
-
-const services = [
-  {
-    icon: Armchair,
-    title: "Interior Design",
-    description: "Full-service residential design focused on creating functional yet luxurious living environments.",
-    link: "/contact?service=interior-design"
-  },
-  {
-    icon: Layout,
-    title: "Space Planning",
-    description: "Optimizing the layout of your home to ensure flow, balance, and maximum utility.",
-    link: "/contact?service=space-planning"
-  },
-  {
-    icon: Palette,
-    title: "Styling & Decor",
-    description: "The finishing touches that turn a house into a home, from art selection to custom textiles.",
-    link: "/contact?service=styling"
-  },
-  {
-    icon: Building2,
-    title: "Commercial Design",
-    description: "Create professional workspaces that enhance productivity and brand identity.",
-    link: "/contact?service=commercial"
-  },
-  {
-    icon: Home,
-    title: "Renovation",
-    description: "Expert guidance through structural changes and updates to breathe new life into your space.",
-    link: "/contact?service=renovation"
-  },
-  {
-    icon: PenTool,
-    title: "Custom Furniture",
-    description: "Bespoke furniture design tailored specifically to your dimensions and style preferences.",
-    link: "/contact?service=custom-furniture"
-  },
-];
+import { useEffect, useState } from "react";
+import { getServices, Service } from "@/lib/api";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Services() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getServices();
+      setServices(data);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (loading) return null;
+
   return (
     <section id="services" className="py-24 px-4 bg-accent-50 relative overflow-hidden">
       {/* Background decoration */}
@@ -72,10 +50,13 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => {
-            const Icon = service.icon;
+            // Dynamically get icon component
+            // @ts-ignore
+            const IconComponent = LucideIcons[service.icon] || LucideIcons.HelpCircle;
+
             return (
               <motion.div
-                key={service.title}
+                key={service.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -87,7 +68,7 @@ export default function Services() {
 
                 <div className="relative z-10">
                   <div className="w-14 h-14 bg-accent-50 rounded-lg flex items-center justify-center mb-8 text-primary-500 group-hover:bg-primary-500 group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:rotate-3">
-                    <Icon className="h-7 w-7" />
+                    <IconComponent className="h-7 w-7" />
                   </div>
 
                   <h3 className="text-2xl mb-4 font-display font-medium text-neutral-900 group-hover:translate-x-1 transition-transform duration-300">
@@ -99,7 +80,7 @@ export default function Services() {
                   </p>
 
                   <Link
-                    href={service.link}
+                    href={service.link || "/contact"}
                     className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-primary-500 hover:text-primary-600 transition-colors group/link"
                   >
                     <span>Learn More</span>
@@ -114,9 +95,3 @@ export default function Services() {
     </section>
   );
 }
-
-
-
-
-
-

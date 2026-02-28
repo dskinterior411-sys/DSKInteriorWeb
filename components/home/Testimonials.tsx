@@ -3,38 +3,29 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import Image from "next/image";
-
-const testimonials = [
-  {
-    id: "1",
-    name: "Sarah Johnson",
-    role: "Homeowner",
-    company: "",
-    content: "DSK Interior transformed our home beyond our expectations. Their attention to detail and creative vision is unmatched. We couldn't be happier!",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200",
-  },
-  {
-    id: "2",
-    name: "Michael Chen",
-    role: "CEO",
-    company: "Tech Innovations",
-    content: "The corporate office redesign was phenomenal. Our team productivity has increased, and the space reflects our brand perfectly.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
-  },
-  {
-    id: "3",
-    name: "Emily Rodriguez",
-    role: "Director",
-    company: "Boutique Fashion",
-    content: "Our retail space is now a destination. Customers love the atmosphere, and sales have increased significantly. Highly recommend!",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200",
-  },
-];
+import { useEffect, useState } from "react";
+import { getTestimonials, Testimonial } from "@/lib/api";
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getTestimonials();
+      setTestimonials(data);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  // Use placeholder if no data but not loading (or just show empty state)
+  // For now, if loading, we can show a skeleton or nothing.
+
+  if (loading) return null; // Or a loading spinner
+
+  if (testimonials.length === 0) return null;
+
   return (
     <section className="py-24 bg-neutral-900 border-t border-neutral-800">
       <div className="container-custom">
@@ -69,7 +60,7 @@ export default function Testimonials() {
               <div className="mb-8">
                 <Quote className="h-10 w-10 text-primary-500/30 mb-6 group-hover:text-primary-500 transition-colors duration-300" />
                 <div className="flex space-x-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
+                  {[...Array(testimonial.rating || 5)].map((_, i) => (
                     <Star
                       key={i}
                       className="h-4 w-4 fill-primary-500 text-primary-500"

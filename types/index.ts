@@ -12,6 +12,7 @@ export interface Project {
 }
 
 export type ProjectCategory = 
+  | "modular-kitchen"
   | "residential" 
   | "commercial" 
   | "retail" 
@@ -64,6 +65,8 @@ export interface Testimonial {
   rating: number;
   image?: string;
 }
+
+
 
 
 

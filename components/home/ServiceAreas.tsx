@@ -3,29 +3,43 @@
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getLocations, Location } from "@/lib/api";
 
-const serviceAreas = [
+// Fallback locations if database is empty
+const fallbackLocations = [
   {
     city: "Nashik",
     description: "Our home base, delivering exceptional design across the city.",
-    // Nashik styled house (Indian traditional/modern mix)
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"
   },
   {
     city: "Pune",
     description: "Transforming residential and commercial spaces in the cultural capital.",
-    // Pune styled House (Modern apartment/bungalow)
     image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800"
   },
   {
     city: "Mumbai",
     description: "Bringing sophisticated luxury to the bustling metropolis.",
-    // Modern Villas (High-end luxury)
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=800"
   },
 ];
 
 export default function ServiceAreas() {
+  const [locations, setLocations] = useState<Location[]>([]);
+
+  useEffect(() => {
+    async function fetchLocations() {
+      const data = await getLocations();
+      if (data && data.length > 0) {
+        setLocations(data);
+      } else {
+        // Use fallback if no locations in database
+        setLocations(fallbackLocations as Location[]);
+      }
+    }
+    fetchLocations();
+  }, []);
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       {/* Decorative Background Elements */}
@@ -50,7 +64,7 @@ export default function ServiceAreas() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {serviceAreas.map((area, index) => (
+          {locations.map((area, index) => (
             <motion.div
               key={area.city}
               initial={{ opacity: 0, y: 30 }}

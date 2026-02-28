@@ -5,14 +5,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import {
+  ArrowRight, ArrowLeft, Check,
+  Home, Building2, Store, Briefcase, Coffee, Utensils,
+  MapPin, Sparkles, User, Mail, Phone, Building, MessageSquare
+} from "lucide-react";
 import { ProjectCategory, ConsultationRequest } from "@/types";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import SuccessMessage from "@/components/ui/SuccessMessage";
 
 const projectTypeSchema = z.object({
-  projectType: z.enum(["residential", "commercial", "retail", "corporate", "hospitality"]),
+  projectType: z.enum(["modular-kitchen", "residential", "commercial", "retail", "corporate", "hospitality"]),
 });
 
 const projectDetailsSchema = z.object({
@@ -34,40 +38,63 @@ const contactSchema = z.object({
   company: z.string().optional(),
 });
 
-type FormData = {
-  projectType: ProjectCategory;
-  spaceSize: string;
-  budgetRange: string;
-  timeline: string;
-  location: string;
-  stylePreferences: string[];
-  specificRequirements: string;
-  contactName: string;
-  email: string;
-  phone: string;
-  company?: string;
-};
+type FormData = z.infer<typeof projectTypeSchema> &
+  z.infer<typeof projectDetailsSchema> &
+  z.infer<typeof preferencesSchema> &
+  z.infer<typeof contactSchema>;
 
 const steps = [
-  { id: 1, title: "Project Type", schema: projectTypeSchema },
-  { id: 2, title: "Project Details", schema: projectDetailsSchema },
-  { id: 3, title: "Preferences", schema: preferencesSchema },
-  { id: 4, title: "Contact Info", schema: contactSchema },
-  { id: 5, title: "Review", schema: z.object({}) },
+  { id: 1, title: "Space & Use", subtitle: "What are we designing?", schema: projectTypeSchema },
+  { id: 2, title: "Scope & Details", subtitle: "Project parameters", schema: projectDetailsSchema },
+  { id: 3, title: "Aesthetics", subtitle: "Your vision & style", schema: preferencesSchema },
+  { id: 4, title: "Your Details", subtitle: "How to reach you", schema: contactSchema },
+  { id: 5, title: "Review", subtitle: "Confirm details", schema: z.object({}) },
+];
+
+const projectTypes = [
+  { id: "residential", title: "Residential", icon: Home, desc: "Homes, Villas & Apartments" },
+  { id: "commercial", title: "Commercial", icon: Building2, desc: "Offices & Workspaces" },
+  { id: "modular-kitchen", title: "Modular Kitchen", icon: Utensils, desc: "Custom Kitchen Designs" },
+  { id: "retail", title: "Retail", icon: Store, desc: "Shops & Showrooms" },
+  { id: "hospitality", title: "Hospitality", icon: Coffee, desc: "Hotels & Restaurants" },
+  { id: "corporate", title: "Corporate", icon: Briefcase, desc: "Enterprise Workplaces" },
+] as const;
+
+const spaceSizes = [
+  { id: "small", title: "Compact", desc: "Under 500 sq ft" },
+  { id: "medium", title: "Standard", desc: "500 - 2000 sq ft" },
+  { id: "large", title: "Spacious", desc: "2000 - 5000 sq ft" },
+  { id: "xlarge", title: "Premium", desc: "5000+ sq ft" },
+];
+
+const budgets = [
+  { id: "under-10k", title: "Starter", desc: "Under $10k" },
+  { id: "10k-25k", title: "Standard", desc: "$10k - $25k" },
+  { id: "25k-50k", title: "Premium", desc: "$25k - $50k" },
+  { id: "50k-100k", title: "Luxury", desc: "$50k - $100k" },
+  { id: "over-100k", title: "Ultra Luxury", desc: "$100k+" },
+];
+
+const timelines = [
+  { id: "asap", title: "Immediate", desc: "Ready to start" },
+  { id: "1-3months", title: "Short Term", desc: "1 - 3 months" },
+  { id: "3-6months", title: "Medium Term", desc: "3 - 6 months" },
+  { id: "6-12months", title: "Long Term", desc: "6 - 12 months" },
+  { id: "planning", title: "Just Planning", desc: "Exploring options" },
 ];
 
 const styleOptions = [
-  "Modern",
-  "Contemporary",
-  "Traditional",
-  "Minimalist",
-  "Industrial",
+  "Modern Minimalist",
+  "Contemporary Luxury",
+  "Classic Traditional",
+  "Industrial Chic",
   "Scandinavian",
-  "Bohemian",
-  "Luxury",
+  "Bohemian Elegance",
+  "Mid-Century Modern",
+  "Transitional",
 ];
 
-const STORAGE_KEY = "dsk-consultation-form-progress";
+const STORAGE_KEY = "dsk-consultation-form-v2";
 
 export default function ConsultationForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -80,19 +107,18 @@ export default function ConsultationForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     trigger,
     watch,
     setValue,
     reset,
   } = useForm<FormData>({
     mode: "onChange",
-    defaultValues: {},
+    defaultValues: { stylePreferences: [] },
   });
 
   const watchedValues = watch();
 
-  // Load saved progress from localStorage and sync with form
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
@@ -100,11 +126,10 @@ export default function ConsultationForm() {
         const parsed = JSON.parse(savedData);
         const savedFormData = parsed.data || {};
         const savedStep = parsed.currentStep || 1;
-        
+
         setFormData(savedFormData);
         setCurrentStep(savedStep);
-        
-        // Sync form values with saved data
+
         Object.keys(savedFormData).forEach((key) => {
           setValue(key as keyof FormData, savedFormData[key as keyof FormData]);
         });
@@ -115,7 +140,6 @@ export default function ConsultationForm() {
     setIsLoading(false);
   }, [setValue]);
 
-  // Save progress to localStorage
   const updateFormData = (data: Partial<FormData>) => {
     const updated = { ...formData, ...data };
     setFormData(updated);
@@ -133,7 +157,6 @@ export default function ConsultationForm() {
     }
   };
 
-  // Clear saved progress
   const clearSavedProgress = () => {
     localStorage.removeItem(STORAGE_KEY);
     setFormData({});
@@ -143,18 +166,16 @@ export default function ConsultationForm() {
 
   const nextStep = async () => {
     const currentSchema = steps[currentStep - 1].schema;
-    const isValid = await trigger(Object.keys(currentSchema.shape) as Array<keyof FormData>);
-    
-    if (isValid) {
-      // Get current form values
+    const isStepValid = await trigger(Object.keys(currentSchema.shape) as Array<keyof FormData>);
+
+    if (isStepValid) {
       const currentValues = watch();
       updateFormData(currentValues);
-      
+
       if (currentStep < steps.length) {
         const nextStepNum = currentStep + 1;
         setCurrentStep(nextStepNum);
-        
-        // Save step change to localStorage
+
         try {
           localStorage.setItem(
             STORAGE_KEY,
@@ -180,7 +201,7 @@ export default function ConsultationForm() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setError(null);
-    
+
     try {
       const response = await fetch("/api/consultation", {
         method: "POST",
@@ -191,7 +212,6 @@ export default function ConsultationForm() {
       const result = await response.json();
 
       if (response.ok) {
-        // Clear saved progress on success
         clearSavedProgress();
         setIsSubmitted(true);
       } else {
@@ -211,7 +231,7 @@ export default function ConsultationForm() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-16">
+      <div className="flex justify-center items-center py-32">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -220,22 +240,30 @@ export default function ConsultationForm() {
   if (isSubmitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center py-20 px-6 max-w-2xl mx-auto"
       >
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Check className="h-10 w-10 text-green-600" />
+        <div className="w-24 h-24 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+          <Check className="h-12 w-12 text-primary-600" />
         </div>
-        <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
-        <p className="text-xl text-neutral-600 mb-8">
-          We&apos;ve received your consultation request. Our team will contact you within 24 hours.
+        <h2 className="text-4xl md:text-5xl font-display font-light mb-6 text-neutral-900">
+          Request Received
+        </h2>
+        <p className="text-lg text-neutral-600 mb-10 font-sans leading-relaxed">
+          Thank you for sharing your vision with us. One of our lead designers will review your requirements and reach out within 24 hours to schedule your exclusive consultation.
         </p>
+        <button
+          onClick={() => window.location.href = '/'}
+          className="inline-flex items-center space-x-2 px-8 py-4 bg-neutral-900 text-white rounded-full hover:bg-primary-600 transition-colors duration-300 tracking-wide uppercase text-sm font-semibold"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Return Home</span>
+        </button>
       </motion.div>
     );
   }
 
-  // Prevent form submission on Enter key in review step
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (currentStep === steps.length) {
@@ -243,367 +271,338 @@ export default function ConsultationForm() {
     }
   };
 
-  return (
-    <form onSubmit={handleFormSubmit} className="max-w-3xl mx-auto">
-      {/* Progress Indicator */}
-      <div className="mb-12">
-        <div className="flex items-center justify-between mb-4">
-          {steps.map((step, index) => (
-            <div key={step.id} className="flex items-center flex-1">
-              <div className="flex flex-col items-center flex-1">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                    currentStep > step.id
-                      ? "bg-primary-500 text-white"
-                      : currentStep === step.id
-                      ? "bg-primary-500 text-white ring-4 ring-primary-200"
-                      : "bg-neutral-200 text-neutral-600"
-                  }`}
-                >
-                  {currentStep > step.id ? <Check className="h-5 w-5" /> : step.id}
-                </div>
-                <span className="text-xs mt-2 text-neutral-600 hidden sm:block">
-                  {step.title}
-                </span>
-              </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={`h-1 flex-1 mx-2 ${
-                    currentStep > step.id ? "bg-primary-500" : "bg-neutral-200"
-                  }`}
-                />
-              )}
+  // Generic Card Selector Component
+  const CardSelector = ({
+    options, name, columns = 2, icon: Icon
+  }: {
+    options: readonly any[], name: keyof FormData, columns?: number, icon?: any
+  }) => (
+    <div className={`grid grid-cols-1 md:grid-cols-${columns} gap-4`}>
+      {options.map((opt) => {
+        const isSelected = watchedValues[name] === opt.id;
+        const OptIcon = opt.icon;
+        return (
+          <button
+            key={opt.id}
+            type="button"
+            onClick={() => {
+              setValue(name, opt.id, { shouldValidate: true });
+              updateFormData({ [name]: opt.id });
+            }}
+            className={`flex items-start p-5 rounded-2xl border-2 transition-all duration-300 text-left ${isSelected
+              ? "border-primary-500 bg-primary-50/50 shadow-md transform -translate-y-1"
+              : "border-neutral-100 hover:border-primary-200 hover:bg-neutral-50/50 hover:-translate-y-0.5"
+              }`}
+          >
+            <div className={`p-3 rounded-xl mr-4 flex-shrink-0 ${isSelected ? "bg-primary-500 text-white shadow-sm" : "bg-neutral-100 text-neutral-600"
+              }`}>
+              {OptIcon ? <OptIcon className="w-5 h-5" /> : Icon ? <Icon className="w-5 h-5" /> : <div className="w-2 h-2 rounded-full bg-current m-1.5" />}
             </div>
-          ))}
+            <div>
+              <h3 className={`font-semibold mb-1 ${isSelected ? "text-primary-900" : "text-neutral-900"}`}>
+                {opt.title}
+              </h3>
+              <p className={`text-sm ${isSelected ? "text-primary-700/80" : "text-neutral-500"}`}>
+                {opt.desc}
+              </p>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="mb-12">
+        {/* Minimal Progress Bar */}
+        <div className="flex justify-between mb-2">
+          <span className="text-xs font-semibold tracking-widest uppercase text-primary-600">
+            Step {currentStep} of {steps.length}
+          </span>
+          <span className="text-xs font-medium text-neutral-400 uppercase tracking-wider">
+            {steps[currentStep - 1].title}
+          </span>
+        </div>
+        <div className="h-1 w-full bg-neutral-100 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-primary-500"
+            initial={{ width: `${((currentStep - 1) / steps.length) * 100}%` }}
+            animate={{ width: `${(currentStep / steps.length) * 100}%` }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          />
         </div>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="mb-6">
-          <ErrorMessage message={error} />
-        </div>
-      )}
+      <form onSubmit={handleFormSubmit} className="bg-white rounded-[2rem] shadow-xl shadow-neutral-200/50 border border-neutral-100 p-6 sm:p-12 relative overflow-hidden">
+        {/* Subtle decorative background element */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary-50/50 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
 
-      {/* Form Steps */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          {currentStep === 1 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold mb-6">Select Project Type</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {(["residential", "commercial", "retail", "corporate", "hospitality"] as ProjectCategory[]).map(
-                  (type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => {
-                        setValue("projectType", type);
-                        updateFormData({ projectType: type });
-                      }}
-                      className={`p-6 rounded-xl border-2 text-left transition-all ${
-                        watchedValues.projectType === type
-                          ? "border-primary-500 bg-primary-50"
-                          : "border-neutral-200 hover:border-primary-300"
-                      }`}
-                    >
-                      <h3 className="font-semibold text-lg capitalize mb-2">{type}</h3>
-                    </button>
-                  )
-                )}
-              </div>
-              {errors.projectType && (
-                <p className="text-red-600 text-sm">{errors.projectType.message}</p>
-              )}
+        {error && (
+          <div className="mb-8">
+            <ErrorMessage message={error} />
+          </div>
+        )}
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="min-h-[400px]"
+          >
+            <div className="mb-10">
+              <h2 className="text-3xl sm:text-4xl font-display font-light text-neutral-900 mb-3">
+                {steps[currentStep - 1].title}
+              </h2>
+              <p className="text-neutral-500 font-sans text-lg">
+                {steps[currentStep - 1].subtitle}
+              </p>
             </div>
-          )}
 
-          {currentStep === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold mb-6">Project Details</h2>
-              <div>
-                <label className="block text-sm font-semibold mb-2">Space Size</label>
-                <select
-                  {...register("spaceSize")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                >
-                  <option value="">Select size</option>
-                  <option value="small">Small (under 500 sq ft)</option>
-                  <option value="medium">Medium (500-2000 sq ft)</option>
-                  <option value="large">Large (2000-5000 sq ft)</option>
-                  <option value="xlarge">Extra Large (5000+ sq ft)</option>
-                </select>
-                {errors.spaceSize && (
-                  <p className="text-red-600 text-sm mt-1">{errors.spaceSize.message}</p>
+            {currentStep === 1 && (
+              <div className="space-y-6">
+                <CardSelector options={projectTypes} name="projectType" columns={2} />
+                {errors.projectType && (
+                  <p className="text-red-500 text-sm flex items-center mt-2"><ArrowRight className="w-3 h-3 mr-1" /> {errors.projectType.message}</p>
                 )}
               </div>
+            )}
 
-              <div>
-                <label className="block text-sm font-semibold mb-2">Budget Range</label>
-                <select
-                  {...register("budgetRange")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                >
-                  <option value="">Select budget</option>
-                  <option value="under-10k">Under $10,000</option>
-                  <option value="10k-25k">$10,000 - $25,000</option>
-                  <option value="25k-50k">$25,000 - $50,000</option>
-                  <option value="50k-100k">$50,000 - $100,000</option>
-                  <option value="over-100k">Over $100,000</option>
-                </select>
-                {errors.budgetRange && (
-                  <p className="text-red-600 text-sm mt-1">{errors.budgetRange.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Timeline</label>
-                <select
-                  {...register("timeline")}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                >
-                  <option value="">Select timeline</option>
-                  <option value="asap">ASAP</option>
-                  <option value="1-3months">1-3 months</option>
-                  <option value="3-6months">3-6 months</option>
-                  <option value="6-12months">6-12 months</option>
-                  <option value="planning">Just planning</option>
-                </select>
-                {errors.timeline && (
-                  <p className="text-red-600 text-sm mt-1">{errors.timeline.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Location</label>
-                <input
-                  type="text"
-                  {...register("location")}
-                  placeholder="City, State"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-                {errors.location && (
-                  <p className="text-red-600 text-sm mt-1">{errors.location.message}</p>
-                )}
-              </div>
-            </div>
-          )}
-
-          {currentStep === 3 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold mb-6">Style Preferences</h2>
-              <div>
-                <label className="block text-sm font-semibold mb-4">
-                  Select your preferred styles (select all that apply)
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {styleOptions.map((style) => {
-                    const isSelected = formData.stylePreferences?.includes(style) || watchedValues.stylePreferences?.includes(style);
-                    return (
-                      <button
-                        key={style}
-                        type="button"
-                        onClick={() => {
-                          const current = formData.stylePreferences || watchedValues.stylePreferences || [];
-                          const updated = isSelected
-                            ? current.filter((s) => s !== style)
-                            : [...current, style];
-                          setValue("stylePreferences", updated);
-                          const newFormData = { ...formData, stylePreferences: updated };
-                          setFormData(newFormData);
-                          // Save to localStorage immediately
-                          try {
-                            localStorage.setItem(
-                              STORAGE_KEY,
-                              JSON.stringify({
-                                data: newFormData,
-                                currentStep,
-                                timestamp: Date.now(),
-                              })
-                            );
-                          } catch (e) {
-                            console.error("Error saving form data:", e);
-                          }
-                        }}
-                        className={`p-4 rounded-lg border-2 transition-all ${
-                          isSelected
-                            ? "border-primary-500 bg-primary-50 text-primary-700"
-                            : "border-neutral-200 hover:border-primary-300"
-                        }`}
-                      >
-                        {style}
-                      </button>
-                    );
-                  })}
-                </div>
-                {errors.stylePreferences && (
-                  <p className="text-red-600 text-sm mt-2">{errors.stylePreferences.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">
-                  Specific Requirements (Optional)
-                </label>
-                <textarea
-                  {...register("specificRequirements")}
-                  rows={4}
-                  placeholder="Tell us about any specific requirements, ideas, or inspiration..."
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-              </div>
-            </div>
-          )}
-
-          {currentStep === 4 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
-              <div>
-                <label className="block text-sm font-semibold mb-2">Full Name *</label>
-                <input
-                  type="text"
-                  {...register("contactName")}
-                  placeholder="John Doe"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-                {errors.contactName && (
-                  <p className="text-red-600 text-sm mt-1">{errors.contactName.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Email *</label>
-                <input
-                  type="email"
-                  {...register("email")}
-                  placeholder="john@example.com"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-                {errors.email && (
-                  <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Phone *</label>
-                <input
-                  type="tel"
-                  {...register("phone")}
-                  placeholder="+1 (555) 123-4567"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-                {errors.phone && (
-                  <p className="text-red-600 text-sm mt-1">{errors.phone.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold mb-2">Company (Optional)</label>
-                <input
-                  type="text"
-                  {...register("company")}
-                  placeholder="Company Name"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-neutral-200 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 transition-all duration-300"
-                />
-              </div>
-            </div>
-          )}
-
-          {currentStep === 5 && (
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold mb-6">Review Your Information</h2>
-              <div className="bg-neutral-50 rounded-xl p-6 space-y-4">
+            {currentStep === 2 && (
+              <div className="space-y-10">
                 <div>
-                  <span className="text-sm font-semibold text-neutral-600">Project Type:</span>
-                  <p className="text-lg capitalize">{formData.projectType}</p>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4">Approximate Space Size</h3>
+                  <CardSelector options={spaceSizes} name="spaceSize" columns={2} icon={Building} />
+                  {errors.spaceSize && <p className="text-red-500 text-sm mt-2">{errors.spaceSize.message}</p>}
                 </div>
+
                 <div>
-                  <span className="text-sm font-semibold text-neutral-600">Space Size:</span>
-                  <p className="text-lg">{formData.spaceSize}</p>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4">Initial Budget Estimate</h3>
+                  <CardSelector options={budgets} name="budgetRange" columns={2} />
+                  {errors.budgetRange && <p className="text-red-500 text-sm mt-2">{errors.budgetRange.message}</p>}
                 </div>
+
                 <div>
-                  <span className="text-sm font-semibold text-neutral-600">Budget Range:</span>
-                  <p className="text-lg">{formData.budgetRange}</p>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4">Expected Timeline</h3>
+                  <CardSelector options={timelines} name="timeline" columns={2} />
+                  {errors.timeline && <p className="text-red-500 text-sm mt-2">{errors.timeline.message}</p>}
                 </div>
+
                 <div>
-                  <span className="text-sm font-semibold text-neutral-600">Timeline:</span>
-                  <p className="text-lg">{formData.timeline}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-semibold text-neutral-600">Location:</span>
-                  <p className="text-lg">{formData.location}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-semibold text-neutral-600">Style Preferences:</span>
-                  <p className="text-lg">{formData.stylePreferences?.join(", ")}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-semibold text-neutral-600">Name:</span>
-                  <p className="text-lg">{formData.contactName}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-semibold text-neutral-600">Email:</span>
-                  <p className="text-lg">{formData.email}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-semibold text-neutral-600">Phone:</span>
-                  <p className="text-lg">{formData.phone}</p>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4">Project Location</h3>
+                  <div className="relative">
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      {...register("location")}
+                      placeholder="e.g. Pune, Maharashtra"
+                      className="w-full pl-12 pr-4 py-4 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all text-lg rounded-t-xl"
+                    />
+                  </div>
+                  {errors.location && <p className="text-red-500 text-sm mt-2">{errors.location.message}</p>}
                 </div>
               </div>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
+            )}
 
-      {/* Navigation Buttons */}
-      <div className="flex justify-between mt-12">
-        <button
-          type="button"
-          onClick={prevStep}
-          disabled={currentStep === 1}
-          className={`px-6 py-3 rounded-full font-semibold flex items-center space-x-2 ${
-            currentStep === 1
-              ? "bg-neutral-100 text-neutral-400 cursor-not-allowed"
-              : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
-          }`}
-        >
-          <ArrowLeft className="h-5 w-5" />
-          <span>Previous</span>
-        </button>
+            {currentStep === 3 && (
+              <div className="space-y-10">
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4 flex items-center">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Style Preferences (Select multiple)
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    {styleOptions.map((style) => {
+                      const isSelected = watchedValues.stylePreferences?.includes(style);
+                      return (
+                        <button
+                          key={style}
+                          type="button"
+                          onClick={() => {
+                            const current = watchedValues.stylePreferences || [];
+                            const updated = isSelected
+                              ? current.filter((s) => s !== style)
+                              : [...current, style];
+                            setValue("stylePreferences", updated, { shouldValidate: true });
+                            updateFormData({ stylePreferences: updated });
+                          }}
+                          className={`px-6 py-3 rounded-full border transition-all text-sm font-medium ${isSelected
+                            ? "border-primary-500 bg-primary-500 text-white shadow-md shadow-primary-500/20"
+                            : "border-neutral-200 bg-white text-neutral-600 hover:border-primary-300 hover:bg-neutral-50"
+                            }`}
+                        >
+                          {style}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {errors.stylePreferences && <p className="text-red-500 text-sm mt-3">{errors.stylePreferences.message}</p>}
+                </div>
 
-        {currentStep < steps.length ? (
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400 mb-4 flex items-center">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Specific Requirements
+                  </h3>
+                  <textarea
+                    {...register("specificRequirements")}
+                    rows={4}
+                    placeholder="Tell us about your lifestyle, any specific needs, or must-haves..."
+                    className="w-full p-5 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all text-base rounded-t-2xl resize-none placeholder:text-neutral-400"
+                  />
+                </div>
+              </div>
+            )}
+
+            {currentStep === 4 && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Full Name *</label>
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                      <input
+                        type="text"
+                        {...register("contactName")}
+                        placeholder="John Doe"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all rounded-t-xl"
+                      />
+                    </div>
+                    {errors.contactName && <p className="text-red-500 text-sm mt-1">{errors.contactName.message}</p>}
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Company (Optional)</label>
+                    <div className="relative">
+                      <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                      <input
+                        type="text"
+                        {...register("company")}
+                        placeholder="Your Company"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all rounded-t-xl"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Email Address *</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                      <input
+                        type="email"
+                        {...register("email")}
+                        placeholder="hello@example.com"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all rounded-t-xl"
+                      />
+                    </div>
+                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Phone Number *</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                      <input
+                        type="tel"
+                        {...register("phone")}
+                        placeholder="+91 98765 43210"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border-0 border-b-2 border-neutral-200 focus:border-primary-500 focus:ring-0 focus:bg-primary-50/30 transition-all rounded-t-xl"
+                      />
+                    </div>
+                    {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 5 && (
+              <div className="space-y-8">
+                <div className="bg-neutral-50 rounded-2xl p-6 sm:p-8 space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-1">Project Target</span>
+                      <p className="font-medium text-lg capitalize">{watchedValues.projectType?.replace('-', ' ')}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-1">Location</span>
+                      <p className="font-medium text-lg">{watchedValues.location}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-1">Size & Budget</span>
+                      <p className="font-medium">{spaceSizes.find(s => s.id === watchedValues.spaceSize)?.title} • {budgets.find(b => b.id === watchedValues.budgetRange)?.title}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-1">Timeline</span>
+                      <p className="font-medium">{timelines.find(t => t.id === watchedValues.timeline)?.title}</p>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-2">Style Preferences</span>
+                      <div className="flex flex-wrap gap-2">
+                        {watchedValues.stylePreferences?.map(style => (
+                          <span key={style} className="bg-white border border-neutral-200 px-3 py-1 rounded-full text-sm font-medium text-neutral-700">{style}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2 pt-4 border-t border-neutral-200 mt-2">
+                      <span className="text-xs font-semibold text-neutral-400 uppercase tracking-widest block mb-2">Contact Details</span>
+                      <p className="font-medium text-lg">{watchedValues.contactName} {watchedValues.company ? `(${watchedValues.company})` : ''}</p>
+                      <p className="text-neutral-600">{watchedValues.email} • {watchedValues.phone}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="flex justify-between items-center mt-12 pt-8 border-t border-neutral-100">
           <button
             type="button"
-            onClick={nextStep}
-            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-strong transform hover:scale-105 active:scale-95 flex items-center space-x-2"
+            onClick={prevStep}
+            className={`font-semibold flex items-center space-x-2 text-sm uppercase tracking-wider transition-colors ${currentStep === 1
+              ? "text-neutral-300 cursor-not-allowed"
+              : "text-neutral-500 hover:text-neutral-900"
+              }`}
+            disabled={currentStep === 1}
           >
-            <span>Next</span>
-            <ArrowRight className="h-5 w-5" />
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back</span>
           </button>
-        ) : (
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-6 py-3 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all duration-300 shadow-lg hover:shadow-strong transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center space-x-2"
-          >
-            {isSubmitting ? (
-              <>
-                <LoadingSpinner size="sm" />
-                <span>Submitting...</span>
-              </>
-            ) : (
-              <span>Submit Consultation</span>
-            )}
-          </button>
-        )}
-      </div>
-    </form>
+
+          {currentStep < steps.length ? (
+            <button
+              type="button"
+              onClick={nextStep}
+              className="group px-8 py-4 bg-neutral-900 text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-neutral-800 transition-all duration-300 shadow-xl shadow-neutral-900/20 hover:shadow-2xl hover:-translate-y-0.5 flex items-center space-x-3"
+            >
+              <span>Continue</span>
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="group px-8 py-4 bg-primary-500 text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-primary-600 transition-all duration-300 shadow-xl shadow-primary-500/30 hover:shadow-2xl hover:-translate-y-0.5 flex items-center space-x-3 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isSubmitting ? (
+                <>
+                  <LoadingSpinner size="sm" />
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <>
+                  <span>Submit Request</span>
+                  <Check className="h-4 w-4" />
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }
 
