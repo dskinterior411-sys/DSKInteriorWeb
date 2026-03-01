@@ -152,7 +152,7 @@ export default function ServiceForm({ initialData }: ServiceFormProps) {
                     <div className="space-y-2">
                         <label className="text-sm font-bold uppercase tracking-wide text-neutral-700">Service Image</label>
                         <ImageUpload
-                            value={form.watch("image") ? [form.watch("image")] : []}
+                            value={form.watch("image") ? [form.watch("image") as string] : []}
                             onChange={(urls) => form.setValue("image", urls[0] || "")}
                         />
                         <p className="text-xs text-neutral-500 mt-1">Upload an image or paste a URL. Recommended size: 800x600px</p>
