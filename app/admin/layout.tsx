@@ -10,7 +10,11 @@ import {
   Settings,
   LogOut,
   Palette,
-  BarChart3
+  BarChart3,
+  MapPin,
+  Star,
+  Briefcase,
+  HelpCircle,
 } from "lucide-react";
 
 export default function AdminLayout({
@@ -49,8 +53,12 @@ export default function AdminLayout({
   const navItems = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Projects", href: "/admin/projects", icon: FolderKanban },
-    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
     { name: "Services", href: "/admin/services", icon: Palette },
+    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
+    { name: "Why Choose Us", href: "/admin/why-choose-us", icon: Star },
+    { name: "Locations", href: "/admin/locations", icon: MapPin },
+    { name: "Careers", href: "/admin/careers", icon: Briefcase },
+    { name: "Consultation", href: "/admin/consultation", icon: HelpCircle },
     { name: "Stats & Settings", href: "/admin/settings", icon: BarChart3 },
     { name: "General Settings", href: "/admin/general", icon: Settings },
   ];
