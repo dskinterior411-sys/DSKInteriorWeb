@@ -9,6 +9,7 @@ export interface Project {
     location?: string;
     year?: number;
     featured: boolean;
+    created_at?: string;
 }
 
 export interface Testimonial {
@@ -28,6 +29,7 @@ export interface Service {
     icon: string;
     order: number;
     link: string;
+    image?: string;
 }
 
 export interface Stat {
@@ -219,6 +221,26 @@ export async function getLocations(): Promise<Location[]> {
     } catch (error) {
         console.error('Unexpected error fetching locations:', error);
         return [];
+    }
+}
+
+export async function getLocationById(id: string): Promise<Location | null> {
+    const supabase = createSupabaseClient();
+    try {
+        const { data, error } = await supabase
+            .from('locations')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            console.error('Error fetching location:', error);
+            return null;
+        }
+        return data;
+    } catch (error) {
+        console.error('Unexpected error fetching location:', error);
+        return null;
     }
 }
 

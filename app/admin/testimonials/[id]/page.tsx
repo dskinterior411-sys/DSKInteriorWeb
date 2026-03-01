@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import TestimonialForm from "@/components/admin/TestimonialForm";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Loader2 } from "lucide-react";
@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 export default function EditTestimonialPage({ params }: { params: { id: string } }) {
     const [testimonial, setTestimonial] = useState(null);
     const [loading, setLoading] = useState(true);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
     useEffect(() => {
         async function fetchTestimonial() {
@@ -26,7 +26,7 @@ export default function EditTestimonialPage({ params }: { params: { id: string }
             setLoading(false);
         }
         fetchTestimonial();
-    }, [params.id]);
+    }, [params.id, supabase]);
 
     if (loading) {
         return (

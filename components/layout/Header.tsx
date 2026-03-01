@@ -14,8 +14,8 @@ function Logo({ isScrolled }: { isScrolled: boolean }) {
   const accentColor = "#b28e5d"; // Gold
 
   return (
-    <div className="flex items-center space-x-2">
-      <div className="relative w-10 h-10 flex items-center justify-center">
+    <div className="flex items-center space-x-3">
+      <div className="relative w-14 h-14 flex items-center justify-center">
         <svg viewBox="0 0 100 100" className="w-full h-full">
           <path d="M10 50 L50 15 L90 50" stroke={strokeColor} strokeWidth="4" fill="none" className="transition-colors duration-300" />
           <path d="M65 28 V15 H75 V36" fill={fillColor} className="transition-colors duration-300" />
@@ -23,8 +23,8 @@ function Logo({ isScrolled }: { isScrolled: boolean }) {
         </svg>
       </div>
       <div className="flex flex-col">
-        <span className={`text-xl leading-none font-medium tracking-[2px] font-display transition-colors duration-300 ${textColor}`}>DSK</span>
-        <span className={`text-[10px] tracking-[4px] uppercase font-light transition-colors duration-300 ${subTextColor}`}>Interiors</span>
+        <span className={`text-3xl leading-none font-semibold tracking-[3px] font-display transition-colors duration-300 ${textColor}`}>DSK</span>
+        <span className={`text-[12px] tracking-[5px] uppercase font-medium transition-colors duration-300 ${subTextColor}`}>Interiors</span>
       </div>
     </div>
   );
@@ -37,7 +37,6 @@ const navigation = [
   { name: "ABOUT", href: "/#about" },
   { name: "CAREER", href: "/career" },
   { name: "CONTACT", href: "/contact" },
-  { name: "ADMIN", href: "/admin/login" },
 ];
 
 export default function Header() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { createSupabaseClient } from "@/lib/supabase";
 import WhyChooseUsForm from "@/components/admin/WhyChooseUsForm";
@@ -11,7 +11,7 @@ export default function EditWhyChooseUsPage() {
     const id = params.id as string;
     const [item, setItem] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
     useEffect(() => {
         async function fetchItem() {
@@ -45,7 +45,7 @@ export default function EditWhyChooseUsPage() {
         return (
             <div className="p-8 bg-red-50 border border-red-200 rounded-lg">
                 <h2 className="text-lg font-bold text-red-900 mb-2">Item Not Found</h2>
-                <p className="text-red-700">The item you're looking for doesn't exist.</p>
+                <p className="text-red-700">The item you&apos;re looking for doesn&apos;t exist.</p>
             </div>
         );
     }

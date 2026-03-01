@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { Plus, Pencil, Trash2, MessageSquare, Star, Quote } from "lucide-react";
 import { createSupabaseClient } from "@/lib/supabase";
@@ -19,26 +19,35 @@ interface Testimonial {
 export default function AdminTestimonials() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [loading, setLoading] = useState(true);
-    const supabase = createSupabaseClient();
+    const [error, setError] = useState<string | null>(null);
+    const supabase = useMemo(() => createSupabaseClient(), []);
+
+    const fetchTestimonials = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const { data, error: fetchError } = await supabase
+                .from("testimonials")
+                .select("*")
+                .order("created_at", { ascending: false });
+
+            if (fetchError) {
+                console.error("Error fetching testimonials:", fetchError);
+                setError(`Error: ${fetchError.message}`);
+            } else {
+                setTestimonials(data || []);
+            }
+        } catch (err: any) {
+            console.error("Unexpected error:", err);
+            setError(`Unexpected error: ${err?.message || "Failed to load testimonials"}`);
+        } finally {
+            setLoading(false);
+        }
+    }, [supabase]);
 
     useEffect(() => {
         fetchTestimonials();
-    }, []);
-
-    const fetchTestimonials = async () => {
-        setLoading(true);
-        const { data, error } = await supabase
-            .from("testimonials")
-            .select("*")
-            .order("created_at", { ascending: false });
-
-        if (error) {
-            console.error("Error fetching testimonials:", error);
-        } else {
-            setTestimonials(data || []);
-        }
-        setLoading(false);
-    };
+    }, [fetchTestimonials]);
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this testimonial?")) {

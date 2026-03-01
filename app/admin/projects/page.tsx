@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { Plus, Pencil, Trash2, Search, Eye } from "lucide-react";
 import { createSupabaseClient } from "@/lib/supabase";
@@ -20,13 +20,9 @@ export default function AdminProjects() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         setLoading(true);
         const { data, error } = await supabase
             .from("projects")
@@ -39,7 +35,11 @@ export default function AdminProjects() {
             setProjects(data || []);
         }
         setLoading(false);
-    };
+    }, [supabase]);
+
+    useEffect(() => {
+        fetchProjects();
+    }, [fetchProjects]);
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
@@ -48,7 +48,7 @@ export default function AdminProjects() {
                 alert("Error deleting project");
                 console.error(error);
             } else {
-                fetchProjects(); // Refresh list
+                window.location.reload();
             }
         }
     };

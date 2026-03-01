@@ -1,50 +1,40 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { createSupabaseClient } from "@/lib/supabase";
+import { useState, useEffect, useCallback } from "react";
 import { Plus, Pencil, Trash2, Loader2, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { deleteLocation } from "@/app/admin/actions";
+import { getLocations, Location } from "@/lib/api";
 
 export default function LocationsPage() {
-    const [locations, setLocations] = useState<any[]>([]);
+    const [locations, setLocations] = useState<Location[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const supabase = createSupabaseClient();
 
-    useEffect(() => {
-        fetchLocations();
-    }, []);
-
-    const fetchLocations = async () => {
+    const fetchLocations = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const { data, error: fetchError } = await supabase
-                .from("locations")
-                .select("*")
-                .order("order", { ascending: true });
-
-            if (fetchError) {
-                console.error("Error fetching locations:", fetchError);
-                setError(`Error: ${fetchError.message}`);
-            } else {
-                setLocations(data || []);
-            }
+            const data = await getLocations();
+            setLocations(data || []);
         } catch (err: any) {
             console.error("Unexpected error:", err);
             setError(`Unexpected error: ${err?.message || "Failed to load locations"}`);
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchLocations();
+    }, [fetchLocations]);
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this location?")) {
             try {
                 await deleteLocation(id);
-                fetchLocations(); // Refresh the list
+                window.location.reload();
             } catch (err) {
                 console.error("Error deleting location:", err);
                 alert("Failed to delete location. Please try again.");

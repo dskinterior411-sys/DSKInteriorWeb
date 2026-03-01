@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -11,13 +11,9 @@ export default function WhyChooseUsPage() {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
-    useEffect(() => {
-        fetchItems();
-    }, []);
-
-    const fetchItems = async () => {
+    const fetchItems = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -38,13 +34,19 @@ export default function WhyChooseUsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [supabase]);
+
+    useEffect(() => {
+        fetchItems();
+    }, [fetchItems]);
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this item?")) {
             try {
                 await deleteWhyChooseUs(id);
-                fetchItems(); // Refresh the list
+                // We're refreshing the page here instead of relying on state 
+                // to avoid complex referential equality issues with useEffect
+                window.location.reload();
             } catch (err) {
                 console.error("Error deleting item:", err);
                 alert("Failed to delete item. Please try again.");

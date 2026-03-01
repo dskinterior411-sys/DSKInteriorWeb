@@ -34,6 +34,7 @@ create table if not exists services (
   icon text,
   "order" integer default 0,
   link text,
+  image text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

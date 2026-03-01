@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import ProjectForm from "@/components/admin/ProjectForm";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Loader2 } from "lucide-react";
@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 export default function EditProjectPage({ params }: { params: { id: string } }) {
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
     useEffect(() => {
         async function fetchProject() {
@@ -26,7 +26,7 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
             setLoading(false);
         }
         fetchProject();
-    }, [params.id]);
+    }, [params.id, supabase]);
 
     if (loading) {
         return (

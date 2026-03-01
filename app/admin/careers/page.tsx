@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Download, Mail, Phone, Calendar, Loader2, Briefcase } from "lucide-react";
 
@@ -8,13 +8,9 @@ export default function CareersPage() {
     const [applications, setApplications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
-    useEffect(() => {
-        fetchApplications();
-    }, []);
-
-    const fetchApplications = async () => {
+    const fetchApplications = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -35,7 +31,11 @@ export default function CareersPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [supabase]);
+
+    useEffect(() => {
+        fetchApplications();
+    }, [fetchApplications]);
 
     if (loading) {
         return (

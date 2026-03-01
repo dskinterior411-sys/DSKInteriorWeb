@@ -9,6 +9,7 @@ import { Loader2, Save, ArrowLeft, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import * as LucideIcons from "lucide-react";
 import { createService, updateService } from "@/app/admin/actions";
+import ImageUpload from "@/components/ui/ImageUpload";
 
 interface ServiceFormProps {
     initialData?: any;
@@ -20,6 +21,7 @@ const serviceSchema = z.object({
     icon: z.string().min(1, "Icon name is required"),
     link: z.string().optional(),
     order: z.coerce.number().default(0),
+    image: z.string().optional(),
 });
 
 type ServiceFormValues = z.infer<typeof serviceSchema>;
@@ -36,6 +38,7 @@ export default function ServiceForm({ initialData }: ServiceFormProps) {
             icon: "",
             link: "",
             order: 0,
+            image: "",
         },
     });
 
@@ -144,6 +147,15 @@ export default function ServiceForm({ initialData }: ServiceFormProps) {
                             className="w-full p-3 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
                             placeholder="Ex: /contact?service=design"
                         />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-bold uppercase tracking-wide text-neutral-700">Service Image</label>
+                        <ImageUpload
+                            value={form.watch("image") ? [form.watch("image")] : []}
+                            onChange={(urls) => form.setValue("image", urls[0] || "")}
+                        />
+                        <p className="text-xs text-neutral-500 mt-1">Upload an image or paste a URL. Recommended size: 800x600px</p>
                     </div>
 
                     <div className="pt-4 border-t border-neutral-100 flex justify-end">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -19,6 +20,11 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -33,6 +39,11 @@ export default function AdminLayout({
   // If on login page, don't show the layout shell
   if (pathname === "/admin/login") {
     return <>{children}</>;
+  }
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return <div className="min-h-screen bg-neutral-50 flex items-center justify-center"></div>;
   }
 
   const navItems = [
@@ -65,8 +76,8 @@ export default function AdminLayout({
                 key={item.href}
                 href={item.href}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
-                    ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20"
-                    : "text-neutral-400 hover:bg-neutral-800 hover:text-white"
+                  ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20"
+                  : "text-neutral-400 hover:bg-neutral-800 hover:text-white"
                   }`}
               >
                 <Icon className="h-5 w-5" />

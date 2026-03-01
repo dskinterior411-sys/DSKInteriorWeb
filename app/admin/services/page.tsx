@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Plus, Pencil, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -11,13 +11,9 @@ export default function ServicesPage() {
     const [services, setServices] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const supabase = createSupabaseClient();
+    const supabase = useMemo(() => createSupabaseClient(), []);
 
-    useEffect(() => {
-        fetchServices();
-    }, []);
-
-    const fetchServices = async () => {
+    const fetchServices = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -26,8 +22,8 @@ export default function ServicesPage() {
             console.log("🔍 Debug Info:", {
                 supabaseUrl: actualUrl,
                 hasAnonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-                environment: actualUrl?.includes('dksbskydjrmkyvoaeelc') ? 'Development' : 
-                            actualUrl?.includes('bupbpxipmpqbwxknsazq') ? 'Production' : 'Unknown'
+                environment: actualUrl?.includes('dksbskydjrmkyvoaeelc') ? 'Development' :
+                    actualUrl?.includes('bupbpxipmpqbwxknsazq') ? 'Production' : 'Unknown'
             });
 
             if (!actualUrl) {
@@ -54,13 +50,17 @@ export default function ServicesPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [supabase]);
+
+    useEffect(() => {
+        fetchServices();
+    }, [fetchServices]);
 
     const handleDelete = async (id: string) => {
         if (confirm("Are you sure you want to delete this service?")) {
             try {
                 await deleteService(id);
-                fetchServices(); // Refresh the list
+                window.location.reload();
             } catch (err) {
                 console.error("Error deleting service:", err);
                 alert("Failed to delete service. Please try again.");
